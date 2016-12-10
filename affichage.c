@@ -20,15 +20,19 @@ void afficher_case(SOKOBAN S, int x,int y){
   draw_fill_rectangle(bg, hd, COUL_FOND);
   draw_rectangle(bg, hd, COUL_BORD);
   
+  affiche_contenu_case(S, x, y);
+}
+
+affiche_contenu_case(SOKOBAN S, int x, int y){
+  
   /*
   
   AFFICHAGE CONTENU CASE
   
   
-  */
+  */  
+  
 }
-
-
 void affiche_separation_blocks(){
   
   /*        */
