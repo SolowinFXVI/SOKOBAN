@@ -1,4 +1,4 @@
-#include "SOKOBAN.h"
+#include "sokoban.h"
 
 void initialiser_affichage();
 
