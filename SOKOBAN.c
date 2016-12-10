@@ -7,12 +7,25 @@ return 1;
 
 int main(int argc, char *argv[]){
 	
-	while(!EXIT()){
+	SOKOBAN S;
+	ACTION A;
+	
+	initialiser_affichage();
+	S = initialiser_SOKOBAN();
+	S = initialiser_niveau(/*niveau*/);
+	afficher_niveau();
+	
+	do {
+		A = recuperer_action();
+		S = modifier_sokoban_action(S, A);
+		afficher_niveau(S);
 		
-		Lire_fichier(/* fichier*/);
-		Interface_de_jeu(/**/);
-		Interface_de_creation(/**/);
-		Ligne_de_commande(/**/);
+		
+		
+	}
+	while(!EXIT());
+		
+		
 	
 	
 }
