@@ -15,5 +15,5 @@ struct sokoban{
   };
   
  typedef struct sokoban SOKOBAN;
- 
- #endif
+
+#endif
