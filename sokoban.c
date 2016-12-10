@@ -13,12 +13,12 @@ int main(int argc, char *argv[]){
 	initialiser_affichage();
 	S = initialiser_SOKOBAN();
 	S = initialiser_niveau(/*niveau*/);
-	afficher_niveau();
+	afficher_sokoban();
 	
 	do {
 		A = recuperer_action();
 		S = modifier_sokoban_action(S, A);
-		afficher_niveau(S);
+		afficher_sokoban(S);
 		
 		
 		
