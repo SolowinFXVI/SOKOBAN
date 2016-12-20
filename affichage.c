@@ -5,16 +5,6 @@ void initialiser_affichage(){
   init_graphics(LARG_FENETRE, HAUT_FENETRE);
   affiche_auto_off();
 }
-void affiche_contenu_une_case(SOKOBAN S, int x, int y, POINT centre){
-
-  /*
-
-  AFFICHAGE CONTENU CASE
-
-
-  */
-;
-}
 
 void afficher_une_case(SOKOBAN S, int x,int y){
   POINT bg,hd,centre;
@@ -26,8 +16,7 @@ void afficher_une_case(SOKOBAN S, int x,int y){
   centre.y = (bg.y + hd.y) / 2;
   draw_fill_rectangle(bg, hd, COUL_FOND);
   draw_rectangle(bg, hd, COUL_BORD);
-
-  affiche_contenu_une_case(S, x, y, centre);
+  
 }
 
 void affiche_separation_blocks(){
@@ -50,7 +39,7 @@ void affiche_niveau(SOKOBAN S){
 
 void affiche_bouton(int rang, char *texte, int etat){
 
-  COULEUR coul_texte = noir;
+  COULEUR coul_texte = ghostwhite;
 
     POINT bg, hd, centre;
     bg.x = rang * LARGEUR_BOUTON;
