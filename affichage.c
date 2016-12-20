@@ -7,7 +7,11 @@ void initialiser_affichage(){
 }
 
 void afficher_une_case(SOKOBAN S, int x,int y){
+
+  COULEUR coul_texte = ghostwhite;
   POINT bg,hd,centre;
+  //char texte[8];
+  //sprintf(texte, "%s", S.une_case[x][y].val);
   bg.x = x * TAILLE_CASE;
   bg.y = y * TAILLE_CASE;
   hd.x = bg.x + TAILLE_CASE;
@@ -16,7 +20,8 @@ void afficher_une_case(SOKOBAN S, int x,int y){
   centre.y = (bg.y + hd.y) / 2;
   draw_fill_rectangle(bg, hd, COUL_FOND);
   draw_rectangle(bg, hd, COUL_BORD);
-  
+  printf("%s",&S.une_case[x][y].val);
+  //aff_pol_centre(S.une_case[x][y].val, TAILLE_POLICE, centre, coul_texte);
 }
 
 void affiche_separation_blocks(){

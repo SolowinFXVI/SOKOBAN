@@ -6,7 +6,7 @@
 #include "affichage.h"
 
 SOKOBAN initialiser_sokoban(char* str){
-	lire(str);
+lire(str);
 }
 
 SOKOBAN initialiser_niveau(){
@@ -25,8 +25,8 @@ int main(int argc, char *argv[]){
 	ACTION A;
 
 	initialiser_affichage();
-	S = initialiser_sokoban("test.xsb");
-	S = initialiser_niveau(/*niveau*/);
+	S = initialiser_sokoban("sasquatch1.xsb");
+	//S = initialiser_niveau(/*niveau*/);
 	afficher_sokoban(S);
 
 	do {
