@@ -1,7 +1,7 @@
 #ifndef ___CONSTANTES_H
 #define ___CONSTANTES_H
 
-#define N 30
+#define N 35
 
 #define TAILLE_CASE 14
 #define LARGEUR_BOUTON ((N*TAILLE_CASE)/6)

@@ -16,10 +16,10 @@ int hauteur_niveau(){
 
 SOKOBAN lire(char* str){
   SOKOBAN S;
-  int x,y;
-  /*char texte[8];
-  sprintf(texte, "%d", S.une_case[x][y].val);
-*/
+  int x = 0;
+  int y = 0;
+  int j,k;
+  int c;
   FILE *fic = fopen(str ,"r");
 
   if (fic == NULL){
@@ -27,20 +27,49 @@ SOKOBAN lire(char* str){
     exit(EXIT_FAILURE);
   }
 
-	S.mode = JOUER;
-  for(y = N-1; y>=0;y--){
+  char rip[300];
+
+/*  while ((c = fgetc(fic)) != EOF){
+
+      if(c == 10){
+        y++;
+      }
+      S.une_case[x][y].val=c;
+      if(c == 10){
+        //printf("\n");
+      }
+
+
+      //sprintf(rip, "%d", c);
+
+      //printf("%s ",rip);
+  }*/
+
+char rts[300];
+sprintf(rts, "%d", 42);
+  /*for(y = N-1; y>=0;y--){
     for(x = 0; x < N; x++){
-      fgets(&S.une_case[x][y].val, 50,fic);
-      //fscanf(fic, "%s ", k);
-      //printf("%s",&S.une_case[x][y].val);
-      //printf("%s",S.une_case[x][y].val);
-    }
+      fscanf(fic,"%s",buffer);
+      fgets(buffer,2,fic);
+      printf("Contenu du fichier=%s\n",buffer);
+      S.une_case[x][y].val = buffer;
+      printf("Contenu val=%s\n",S.une_case[x][y].val);
+
+
+      fscanf(fic,"%s ",&k);
+			S.une_case[x][y].val=k;
+      printf("%s\n",S.une_case[x][y].val);
+      i++;
+      printf("i= %d\n",i);
   }
+}*/
+
+
   /*while(k[i] != ';'){
     printf("pass =%d\n",i);
     i++;
   }*/
-
-  //fclose(fic);
+  //printf("val = %s",&S.une_case[1][1].val);
+  fclose(fic);
   return S;
 }

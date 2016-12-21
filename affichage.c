@@ -20,7 +20,7 @@ void afficher_une_case(SOKOBAN S, int x,int y){
   centre.y = (bg.y + hd.y) / 2;
   draw_fill_rectangle(bg, hd, COUL_FOND);
   draw_rectangle(bg, hd, COUL_BORD);
-  printf("%s",&S.une_case[x][y].val);
+  //printf("in ither = %s",S.une_case[x][y].val);
   //aff_pol_centre(S.une_case[x][y].val, TAILLE_POLICE, centre, coul_texte);
 }
 
@@ -33,13 +33,20 @@ void affiche_separation_blocks(){
 void affiche_niveau(SOKOBAN S){
 
   int x, y;
-  for(x = 0; x < N; x++){
+  /*for(x = 0; x < N; x++){
     for(y = 0; y < N; y++){
       afficher_une_case(S, x, y);
 
     affiche_separation_blocks();
     }
+  }*/
+
+  for(y = N-1; y>=0;y--){
+    for(x = 0; x < N; x++){
+      afficher_une_case(S, x, y);
+    }
   }
+
 }
 
 void affiche_bouton(int rang, char *texte, int etat){

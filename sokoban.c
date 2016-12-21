@@ -6,9 +6,9 @@
 #include "affichage.h"
 
 SOKOBAN initialiser_sokoban(char* str){
-lire(str);
+	return lire(str);
 }
-
+/*
 SOKOBAN initialiser_niveau(){
 	;
 }
@@ -19,19 +19,20 @@ SOKOBAN modifier_sokoban_action()
 }
 
 
-
+*/
 int main(int argc, char *argv[]){
 	SOKOBAN S;
 	ACTION A;
 
 	initialiser_affichage();
-	S = initialiser_sokoban("sasquatch1.xsb");
+	S = initialiser_sokoban("test.xsb");
+	//S = initialiser_sokoban("sasquatch1.xsb");
 	//S = initialiser_niveau(/*niveau*/);
 	afficher_sokoban(S);
 
-	do {
+do {
 		A = recuperer_action();
-		S = modifier_sokoban_action(S, A);
+		//S = modifier_sokoban_action(S, A);
 		afficher_sokoban(S);
 	}
 	while(mode_action(A) != QUIT );

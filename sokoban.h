@@ -4,14 +4,14 @@
 #define ___SOKOBAN_H
 
 struct une_case{
-   char val;
+   int val;
   };
 
 typedef struct une_case CASE;
 
 struct sokoban{
   int mode;
-  CASE une_case[1000/*largeur_niveau()*/][1000/*hauteur_niveau()*/];
+  CASE une_case[N/*largeur_niveau()*/][N/*hauteur_niveau()*/];
   };
 
  typedef struct sokoban SOKOBAN;
