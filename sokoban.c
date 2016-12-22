@@ -25,8 +25,8 @@ int main(int argc, char *argv[]){
 	ACTION A;
 
 	initialiser_affichage();
-	S = initialiser_sokoban("test.xsb");
-	//S = initialiser_sokoban("sasquatch1.xsb");
+	//S = initialiser_sokoban("test.xsb");
+	S = initialiser_sokoban("sasquatch1.xsb");
 	//S = initialiser_niveau(/*niveau*/);
 	afficher_sokoban(S);
 

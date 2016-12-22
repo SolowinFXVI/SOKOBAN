@@ -17,9 +17,9 @@ int hauteur_niveau(){
 SOKOBAN lire(char* str){
   SOKOBAN S;
   int x = 0;
-  int y = 0;
-  int j,k;
+  int y = N-1;
   int c;
+  char a;
   FILE *fic = fopen(str ,"r");
 
   if (fic == NULL){
@@ -27,26 +27,21 @@ SOKOBAN lire(char* str){
     exit(EXIT_FAILURE);
   }
 
-  char rip[300];
-
-/*  while ((c = fgetc(fic)) != EOF){
+  while (((c = fgetc(fic)) != EOF) && (x < N) && (y >= 0)){
 
       if(c == 10){
-        y++;
+        y--;
+        x=0;
+        //printf("y=%d",y);
       }
       S.une_case[x][y].val=c;
-      if(c == 10){
-        //printf("\n");
-      }
+      x++;
+        //printf("x=%d",x);
+      //printf(" %d ",c);
+      a = c;
+      printf("%c",a);
+  }
 
-
-      //sprintf(rip, "%d", c);
-
-      //printf("%s ",rip);
-  }*/
-
-char rts[300];
-sprintf(rts, "%d", 42);
   /*for(y = N-1; y>=0;y--){
     for(x = 0; x < N; x++){
       fscanf(fic,"%s",buffer);
