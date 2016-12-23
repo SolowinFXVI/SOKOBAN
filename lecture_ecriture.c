@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "sokoban.h"
 #include "constantes.h"
-#include <string.h>
+
 
 
 int largeur_niveau(){
