@@ -5,13 +5,10 @@
 #include "action.h"
 #include "affichage.h"
 
-SOKOBAN initialiser_sokoban(char* str){
-	return lire(str);
+SOKOBAN initialiser_sokoban(char* str,int niveau){
+	return lire(str,niveau);
 }
 /*
-SOKOBAN initialiser_niveau(){
-	;
-}
 
 SOKOBAN modifier_sokoban_action()
 {
@@ -23,10 +20,9 @@ SOKOBAN modifier_sokoban_action()
 int main(int argc, char *argv[]){
 	SOKOBAN S;
 	ACTION A;
-	int niveau;
+	int niveau = 1;
 	initialiser_affichage();
-	S = initialiser_sokoban("sasquatch1.xsb");
-	//S = initialiser_niveau(/*niveau*/);
+	S = initialiser_sokoban("sasquatch1.xsb",niveau);
 	afficher_sokoban(S);
 
 do {

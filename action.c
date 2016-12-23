@@ -5,7 +5,6 @@
 #include "stack.h"
 
 ACTION clic_action(ACTION A, POINT P){
-  //printf("P.x=%d,P.y=%d\n",P.x,P.y);
   if(P.y > (N*TAILLE_CASE)){
     if (P.x < LARGEUR_BOUTON) {
       A.mode = UNDO;
