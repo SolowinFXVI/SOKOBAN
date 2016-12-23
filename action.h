@@ -3,7 +3,7 @@
 
 struct action{
   int mode;
-  int x, y;
+  int fleche;
 };
 
 typedef struct action ACTION;
@@ -13,5 +13,6 @@ ACTION recuperer_action();
 
 int mode_action(ACTION A);
 
+SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, int niveau);
 
 #endif
