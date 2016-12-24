@@ -50,11 +50,7 @@ void afficher_une_case(SOKOBAN S, int x,int y){
 
 }
 
-void affiche_separation_blocks(){
-
-  /*        */
-;
-}
+//void affiche_separation_blocks(){;}
 
 
 void affiche_niveau(SOKOBAN S){
@@ -63,8 +59,8 @@ void affiche_niveau(SOKOBAN S){
 
     for(x = 0; x < N; x++){
       for(y = 0; y < N; y++){
-      afficher_une_case(S, y, x);
-      affiche_separation_blocks();
+      afficher_une_case(S, x, y);
+  //    affiche_separation_blocks();
     }
   }
 }

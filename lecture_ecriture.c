@@ -18,7 +18,7 @@ int hauteur_niveau(){
 LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
   int stop = 0;
   int c;
-  int count_line = 0;
+  int count_line = -1;
   int count_level = 0;
 
   while(((c = fgetc(fic)) != EOF)){
@@ -37,13 +37,13 @@ LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
     }
 
     if((count_level) == (niveau) && (stop == 0)){
-      L.debut = count_line - 1;
+      L.debut = count_line;
       stop = 1;
       printf("L.debut = %d\n",L.debut);
     }
 
     if((count_level) == (niveau+1)){
-      L.fin = count_line-1;
+      L.fin = count_line;
       printf("L.fin =  %d\n",L.fin);
       return L;
     }
@@ -52,21 +52,36 @@ LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
   return L;
 }
 
-SOKOBAN lire_characteres_un_a_un(FILE *fic,SOKOBAN S, LEVEL L){
+SOKOBAN lire_characteres_un_a_un(FILE *fic, SOKOBAN S, LEVEL L){
   int x = 0;
-  int y = L.fin-1;
+  int y = L.fin;
+  int dep = 0;
   int c;
-while (((c = fgetc(fic)) != EOF) && (x < L.fin) && (y >= L.debut)){ //lit séparement chaque characteres et les stoques
-    if(c == 10){ //nouvelle ligne
-      y--;
-      printf("y=%d\n",y);
-      x=0;
+if(y > N){
+  dep = ;
+  while (((c = fgetc(fic)) != EOF) && (y >= L.debut)){ //lit séparement chaque characteres et les stoques
+      if(c == 10){ //nouvelle ligne
+        y--;
+        dep --;
+        printf("y=%d\n",y);
+        x=0;
+      }
+      S.une_case[x][dep].val=c;
+      x++;
     }
-    S.une_case[x][y].val=c;
-    x++;
-    printf("x=%d\n",x);
-  }
-
+}
+else{
+  while (((c = fgetc(fic)) != EOF) && (y >= L.debut)){ //lit séparement chaque characteres et les stoques
+      if(c == 10){ //nouvelle ligne
+        y--;
+        printf("y=%d\n",y);
+        x=0;
+      }
+      S.une_case[x][y].val=c;
+      x++;
+      printf("y-N=%d\n",y-N);
+    }
+}
   return S;
 }
 
@@ -81,8 +96,16 @@ SOKOBAN lire(char* str, int niveau){
   }
 
   L = initialiser_niveau(fic,niveau,L);
-  S = lire_characteres_un_a_un(fic,S,L);
+    fclose(fic);
 
-  fclose(fic);
+
+  FILE *ficd = fopen(str ,"r");
+  if (ficd == NULL){
+    printf("echec ouverture fichier%s\n",str );
+    exit(EXIT_FAILURE);
+  }
+  S = lire_characteres_un_a_un(ficd,S,L);
+
+  fclose(ficd);
   return S;
 }
