@@ -36,7 +36,7 @@ LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
     ;
     }
 
-    if((count_level) == (niveau) && (stop == 0)){
+    if(((count_level) == (niveau)) && (stop == 0)){
       L.debut = count_line;
       stop = 1;
       printf("L.debut = %d\n",L.debut);
@@ -48,46 +48,83 @@ LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
       return L;
     }
   }
-
   return L;
 }
 
-SOKOBAN lire_characteres_un_a_un(FILE *fic, SOKOBAN S, LEVEL L){
-  int x = 0;
-  int y = L.fin;
-  int dep = 0;
+int calcul_delta(LEVEL L){
+  int delta;
+
+  delta = L.fin - L.debut;
+
+  return delta;
+}
+
+SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L, int delta){
+  int count = 0;
+  int start = 0;
+  int x;
+  int y;
   int c;
-if(y > N){
-  dep = ;
-  while (((c = fgetc(fic)) != EOF) && (y >= L.debut)){ //lit séparement chaque characteres et les stoques
+
+  while ((c = fgetc(ficd)) != EOF){
+
+    if (c == 10){
+      count++;
+    }
+
+    if(count == L.debut){
+      start = 1;
+      printf("initialized");
+    }
+
+    if((start >= 1) && (start <= delta)){
+
+      if(c == 10){
+        y--;
+        x=0;
+      }
+      S.une_case[x][y].val = c;
+      x++;
+      start ++;
+      printf("c = %d\n",c);
+      printf("count = %d\n",count);
+      printf("start = %d\n",start);
+    }
+  }
+
+
+
+/*  while (((c = fgetc(fic)) != EOF) && (y >= L.debut)){ //lit séparement chaque characteres et les stoques
       if(c == 10){ //nouvelle ligne
         y--;
-        dep --;
         printf("y=%d\n",y);
         x=0;
       }
-      S.une_case[x][dep].val=c;
+      S.une_case[x][y-delta].val=c;
+        printf("y - delta = %d\n",y-delta);
       x++;
     }
-}
-else{
+
   while (((c = fgetc(fic)) != EOF) && (y >= L.debut)){ //lit séparement chaque characteres et les stoques
       if(c == 10){ //nouvelle ligne
         y--;
         printf("y=%d\n",y);
         x=0;
       }
-      S.une_case[x][y].val=c;
+      S.une_case[x][y-delta].val=c;
       x++;
-      printf("y-N=%d\n",y-N);
-    }
-}
+      //printf("y-N=%d\n",y-N);
+    }*/
+
+
+
   return S;
 }
 
 SOKOBAN lire(char* str, int niveau){
   SOKOBAN S;
   LEVEL L;
+  int delta;
   FILE *fic = fopen(str ,"r");
 
   if (fic == NULL){
@@ -96,16 +133,22 @@ SOKOBAN lire(char* str, int niveau){
   }
 
   L = initialiser_niveau(fic,niveau,L);
-    fclose(fic);
+  printf("level initilized ");
+  fclose(fic);
 
+  delta = calcul_delta(L);
+  printf("delta processed ");
 
   FILE *ficd = fopen(str ,"r");
+
   if (ficd == NULL){
     printf("echec ouverture fichier%s\n",str );
     exit(EXIT_FAILURE);
   }
-  S = lire_characteres_un_a_un(ficd,S,L);
 
+  printf("before lire_characteres_un_a_un");
+  S = lire_characteres_un_a_un(ficd,S,L,delta);
+  printf("after lire_characteres_un_a_un");
   fclose(ficd);
   return S;
 }
