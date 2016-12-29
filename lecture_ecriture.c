@@ -7,12 +7,70 @@
 
 
 
-int largeur_niveau(){
-return 100;
-}
+LEVEL preprocess(char* str){
+  LEVEL P;
+  P.debut = 0;
+  int c;
+  int newlevel = 0;
+  int newline = 0;
+  int count_line = -1;
+  int count_level = 0;
+  int tmp = 0;
+  int largest = 0;
+  int longuest = 0;
+  int delta;
+  FILE *fica = fopen(str ,"r");
 
-int hauteur_niveau(){
-  return 100;
+  if (fica == NULL){
+    printf("echec ouverture fichier%s\n",str );
+    exit(EXIT_FAILURE);
+  }
+
+  while(((c = fgetc(fica)) != EOF)){
+
+    switch(c){
+      case 10 :
+        count_line++;
+        newline = 1;
+        //printf("line = %d\n",count_line);
+        break;
+      case 59 :
+        count_level++;
+        newlevel = 1;
+        //printf("level = %d\n",count_level);
+        break;
+    default :
+    ;
+    }
+
+    if(newlevel == 1){
+      P.fin = count_line;
+      delta = P.fin - P.debut;
+      if(delta > longuest){
+        delta = longuest;
+      }
+      P.debut = P.fin;
+      newlevel = 0;
+    }
+
+    if (newline == 1){
+      if(tmp > largest){
+          largest = tmp;
+      }
+      tmp = 0;
+      newline = 0;
+    }
+
+    tmp++;
+
+
+  }
+
+  P.hauteur_max_level = delta;
+  printf("hauteur max = %d\n", P.hauteur_max_level);
+  P.largeur_max_level = largest;
+  printf("longueur = %d\n",P.largeur_max_level);
+  return P;
 }
 
 LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
@@ -26,11 +84,11 @@ LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
     switch(c){
       case 10 :
         count_line++;
-        printf("line = %d\n",count_line);
+        //printf("line = %d\n",count_line);
         break;
       case 59 :
         count_level++;
-        printf("level = %d\n",count_level);
+        //printf("level = %d\n",count_level);
         break;
     default :
     ;
@@ -48,22 +106,28 @@ LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
       return L;
     }
   }
+
+  if(L.fin == 0){ //pour le dernier niveau du fichier
+    L.fin = count_line;
+  }
   return L;
 }
 
-int calcul_delta(LEVEL L){
+/*int calcul_delta(LEVEL L){
   int delta;
 
   delta = L.fin - L.debut;
 
   return delta;
-}
+}*/
 
-SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L, int delta){
+SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L){
   int count = 0;
   int start = 0;
-  int x;
-  int y;
+  int delta;
+  delta = L.fin - L.debut;
+  int x = 0;
+  int y = L.fin-L.fin+25;
   int c;
 
   while ((c = fgetc(ficd)) != EOF){
@@ -74,48 +138,23 @@ SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L, int delta){
 
     if(count == L.debut){
       start = 1;
-      printf("initialized");
+      //printf("initialized");
     }
 
     if((start >= 1) && (start <= delta)){
 
       if(c == 10){
         y--;
+        start ++;
         x=0;
       }
       S.une_case[x][y].val = c;
       x++;
-      start ++;
-      printf("c = %d\n",c);
-      printf("count = %d\n",count);
-      printf("start = %d\n",start);
+      //printf("c = %d\n",c);
+      //printf("count = %d\n",count);
+      //printf("start = %d\n",start);
     }
   }
-
-
-
-/*  while (((c = fgetc(fic)) != EOF) && (y >= L.debut)){ //lit séparement chaque characteres et les stoques
-      if(c == 10){ //nouvelle ligne
-        y--;
-        printf("y=%d\n",y);
-        x=0;
-      }
-      S.une_case[x][y-delta].val=c;
-        printf("y - delta = %d\n",y-delta);
-      x++;
-    }
-
-  while (((c = fgetc(fic)) != EOF) && (y >= L.debut)){ //lit séparement chaque characteres et les stoques
-      if(c == 10){ //nouvelle ligne
-        y--;
-        printf("y=%d\n",y);
-        x=0;
-      }
-      S.une_case[x][y-delta].val=c;
-      x++;
-      //printf("y-N=%d\n",y-N);
-    }*/
-
 
 
   return S;
@@ -124,7 +163,10 @@ SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L, int delta){
 SOKOBAN lire(char* str, int niveau){
   SOKOBAN S;
   LEVEL L;
-  int delta;
+  L.hauteur_max_level = 0; //test
+  L.largeur_max_level = 0;
+  L.debut=0;
+  L.fin=0;
   FILE *fic = fopen(str ,"r");
 
   if (fic == NULL){
@@ -136,8 +178,6 @@ SOKOBAN lire(char* str, int niveau){
   printf("level initilized ");
   fclose(fic);
 
-  delta = calcul_delta(L);
-  printf("delta processed ");
 
   FILE *ficd = fopen(str ,"r");
 
@@ -147,7 +187,7 @@ SOKOBAN lire(char* str, int niveau){
   }
 
   printf("before lire_characteres_un_a_un");
-  S = lire_characteres_un_a_un(ficd,S,L,delta);
+  S = lire_characteres_un_a_un(ficd,S,L);
   printf("after lire_characteres_un_a_un");
   fclose(ficd);
   return S;

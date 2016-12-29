@@ -19,8 +19,10 @@ SOKOBAN modifier_sokoban_action()
 */
 int main(int argc, char *argv[]){
 	SOKOBAN S;
+	//LEVEL P;
 	ACTION A;
-	int niveau = 1;
+	int niveau = 25;
+	//P = preprocess("sasquatch1.xsb");
 	initialiser_affichage();
 	S = initialiser_sokoban("sasquatch1.xsb",niveau);
 	afficher_sokoban(S);
