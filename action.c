@@ -4,25 +4,25 @@
 #include "action.h"
 #include "stack.h"
 
-ACTION clic_action(ACTION A, POINT P){
-  if(P.y > (N*TAILLE_CASE)){
-    if (P.x < LARGEUR_BOUTON) {
+ACTION clic_action(ACTION A, POINT P,int LARG,int HAUT){
+  if(P.y > (HAUT*TAILLE_CASE)){
+    if (P.x < ((LARG*TAILLE_CASE)/6)) {
       A.mode = UNDO;
       return A;
     }
-    if (P.x < 2 * LARGEUR_BOUTON) {
+    if (P.x < 2 * ((LARG*TAILLE_CASE)/6)) {
       A.mode = REDO;
       return A;
     }
-    if (P.x < 3 * LARGEUR_BOUTON) {
+    if (P.x < 3 * ((LARG*TAILLE_CASE)/6)) {
       A.mode = INIT;
       return A;
     }
-    if (P.x < 4 * LARGEUR_BOUTON) {
+    if (P.x < 4 * ((LARG*TAILLE_CASE)/6)) {
       A.mode = PREC;
       return A;
     }
-    if (P.x < 5 * LARGEUR_BOUTON) {
+    if (P.x < 5 * ((LARG*TAILLE_CASE)/6)) {
       A.mode = SUIV;
       return A;
     }
@@ -75,7 +75,7 @@ ACTION fleche_action(ACTION A,int fleche){
   return A;
 }
 
-ACTION recuperer_action(){
+ACTION recuperer_action(int LARG, int HAUT){
 
   ACTION A;
   POINT P = get_clic();
@@ -96,7 +96,7 @@ ACTION recuperer_action(){
   }
 
   if(type == 3){ //clic
-    return clic_action(A,P);
+    return clic_action(A,P,LARG,HAUT);
   }
 
   return A;
@@ -133,7 +133,7 @@ SOKOBAN suiv(SOKOBAN S, int niveau){
   return S;
 }
 
-SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A,int niveau){
+SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, int niveau){
 
   if(A.mode == UNDO){
     sauvegarder(S);

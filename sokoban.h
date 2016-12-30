@@ -11,7 +11,7 @@ typedef struct une_case CASE;
 
 struct sokoban{
   int mode;
-  CASE une_case[N/*largeur_niveau()*/][N/*hauteur_niveau()*/];
+  CASE une_case[100][100]; //ne devrais jamais dépasser 100*100 cases
   };
 
  typedef struct sokoban SOKOBAN;

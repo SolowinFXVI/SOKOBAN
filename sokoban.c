@@ -19,18 +19,22 @@ SOKOBAN modifier_sokoban_action()
 */
 int main(int argc, char *argv[]){
 	SOKOBAN S;
-	//LEVEL P;
+	LEVEL P;
 	ACTION A;
-	int niveau = 25;
-	//P = preprocess("sasquatch1.xsb");
-	initialiser_affichage();
+	int niveau = 2;
+	int LARG;
+	int HAUT;
+	P = preprocess("sasquatch1.xsb");
+	LARG = P.largeur_max_level;
+	HAUT = P.hauteur_max_level;
+	initialiser_affichage(LARG,HAUT);
 	S = initialiser_sokoban("sasquatch1.xsb",niveau);
-	afficher_sokoban(S);
+	afficher_sokoban(S, LARG, HAUT);
 
 do {
-		A = recuperer_action();
+	A = recuperer_action(LARG,HAUT);
 		S = modifier_sokoban_action(S, A, niveau);
-		afficher_sokoban(S);
+		afficher_sokoban(S, LARG, HAUT);
 	}
 	while(mode_action(A) != QUIT );
 	return 0;

@@ -13,12 +13,12 @@ LEVEL preprocess(char* str){
   int c;
   int newlevel = 0;
   int newline = 0;
-  int count_line = -1;
-  int count_level = 0;
+  int count_line = 0;
+  int count_level = 1;
   int tmp = 0;
   int largest = 0;
   int longuest = 0;
-  int delta;
+  int delta = 0;
   FILE *fica = fopen(str ,"r");
 
   if (fica == NULL){
@@ -47,7 +47,7 @@ LEVEL preprocess(char* str){
       P.fin = count_line;
       delta = P.fin - P.debut;
       if(delta > longuest){
-        delta = longuest;
+        longuest = delta;
       }
       P.debut = P.fin;
       newlevel = 0;
@@ -66,7 +66,7 @@ LEVEL preprocess(char* str){
 
   }
 
-  P.hauteur_max_level = delta;
+  P.hauteur_max_level = longuest;
   printf("hauteur max = %d\n", P.hauteur_max_level);
   P.largeur_max_level = largest;
   printf("longueur = %d\n",P.largeur_max_level);
@@ -113,21 +113,13 @@ LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
   return L;
 }
 
-/*int calcul_delta(LEVEL L){
-  int delta;
-
-  delta = L.fin - L.debut;
-
-  return delta;
-}*/
-
 SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L){
   int count = 0;
   int start = 0;
   int delta;
   delta = L.fin - L.debut;
   int x = 0;
-  int y = L.fin-L.fin+25;
+  int y = L.fin-L.fin+delta;
   int c;
 
   while ((c = fgetc(ficd)) != EOF){

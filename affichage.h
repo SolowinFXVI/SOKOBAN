@@ -2,6 +2,5 @@
 
 void initialiser_affichage();
 
-void affiche_niveau(SOKOBAN S);
 
-void afficher_sokoban(SOKOBAN S);
+void afficher_sokoban(SOKOBAN S, int LARG, int HAUT);

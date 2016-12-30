@@ -1,8 +1,12 @@
 #include <uvsqgraphics.h>
 #include "affichage.h"
+#include "lecture_ecriture.h"
 
-void initialiser_affichage(){
-  init_graphics(LARG_FENETRE, HAUT_FENETRE);
+
+
+
+void initialiser_affichage(int LARG, int HAUT){
+  init_graphics(LARG*TAILLE_CASE, (HAUT*TAILLE_CASE+HAUTEUR_BOUTON));
   affiche_auto_off();
 }
 
@@ -50,29 +54,26 @@ void afficher_une_case(SOKOBAN S, int x,int y){
 
 }
 
-//void affiche_separation_blocks(){;}
 
-
-void affiche_niveau(SOKOBAN S){
+void affiche_niveau(SOKOBAN S,int LARG,int HAUT){
 
   int x,y;
 
-    for(x = 0; x < N; x++){
-      for(y = 0; y < N; y++){
+    for(x = 0; x < LARG; x++){
+      for(y = 0; y < HAUT; y++){
       afficher_une_case(S, x, y);
-  //    affiche_separation_blocks();
     }
   }
 }
 
-void affiche_bouton(int rang, char *texte, int etat){
+void affiche_bouton(int rang, char *texte, int etat,int LARG, int HAUT){
 
   COULEUR coul_texte = ghostwhite;
 
     POINT bg, hd, centre;
-    bg.x = rang * LARGEUR_BOUTON;
-    bg.y = HAUT_FENETRE - HAUTEUR_BOUTON;
-    hd.x = bg.x + LARGEUR_BOUTON;
+    bg.x = rang * ((LARG*TAILLE_CASE)/6);
+    bg.y = (HAUT*TAILLE_CASE+HAUTEUR_BOUTON) - HAUTEUR_BOUTON;
+    hd.x = bg.x + ((LARG*TAILLE_CASE)/6);
     hd.y = bg.y + HAUTEUR_BOUTON;
     centre.x = (bg.x + hd.x) / 2;
     centre.y = (bg.y + hd.y) / 2;
@@ -82,20 +83,20 @@ void affiche_bouton(int rang, char *texte, int etat){
     aff_pol_centre(texte, TAILLE_POLICE, centre, coul_texte);
 }
 
-void affiche_bouton_all(SOKOBAN S)
+void affiche_bouton_all(SOKOBAN S,int LARG, int HAUT)
 {
 
-  affiche_bouton(0,"Undo", S.mode == UNDO);
-  affiche_bouton(1,"Redo", S.mode == REDO);
-  affiche_bouton(2,"Init", S.mode == INIT);
-  affiche_bouton(3,"Precedent", S.mode == PREC);
-  affiche_bouton(4,"Suivant", S.mode == SUIV);
-  affiche_bouton(5,"Quit", S.mode == QUIT);
+  affiche_bouton(0,"Undo", S.mode == UNDO, LARG, HAUT);
+  affiche_bouton(1,"Redo", S.mode == REDO, LARG, HAUT);
+  affiche_bouton(2,"Init", S.mode == INIT, LARG, HAUT);
+  affiche_bouton(3,"Precedent", S.mode == PREC, LARG, HAUT);
+  affiche_bouton(4,"Suivant", S.mode == SUIV, LARG, HAUT);
+  affiche_bouton(5,"Quit", S.mode == QUIT, LARG, HAUT);
 }
 
-void afficher_sokoban(SOKOBAN S){
+void afficher_sokoban(SOKOBAN S,int LARG,int HAUT){
   fill_screen(noir);
-  affiche_niveau(S);
-  affiche_bouton_all(S);
+  affiche_niveau(S,LARG,HAUT);
+  affiche_bouton_all(S,LARG,HAUT);
   affiche_all();
 }
