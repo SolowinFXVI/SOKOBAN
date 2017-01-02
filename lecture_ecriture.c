@@ -73,7 +73,7 @@ LEVEL preprocess(char* str){
   return P;
 }
 
-LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
+LEVEL initialiser_niveau(FILE *fic, SOKOBAN S,LEVEL L){
   int stop = 0;
   int c;
   int count_line = -1;
@@ -94,20 +94,20 @@ LEVEL initialiser_niveau(FILE *fic, int niveau,LEVEL L){
     ;
     }
 
-    if(((count_level) == (niveau)) && (stop == 0)){
+    if(((count_level) == (S.niveau)) && (stop == 0)){
       L.debut = count_line;
       stop = 1;
       printf("L.debut = %d\n",L.debut);
     }
 
-    if((count_level) == (niveau+1)){
+    if((count_level) == (S.niveau+1)){
       L.fin = count_line;
       printf("L.fin =  %d\n",L.fin);
       return L;
     }
   }
 
-  if(L.fin == 0){ //pour le dernier niveau du fichier
+  if(L.fin == 0){ //pour le dernier S.niveau du fichier
     L.fin = count_line;
   }
   return L;
@@ -152,8 +152,7 @@ SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L){
   return S;
 }
 
-SOKOBAN lire(char* str, int niveau){
-  SOKOBAN S;
+SOKOBAN lire(char* str,SOKOBAN S){
   LEVEL L;
   L.hauteur_max_level = 0; //test
   L.largeur_max_level = 0;
@@ -166,7 +165,7 @@ SOKOBAN lire(char* str, int niveau){
     exit(EXIT_FAILURE);
   }
 
-  L = initialiser_niveau(fic,niveau,L);
+  L = initialiser_niveau(fic,S,L);
   printf("level initilized ");
   fclose(fic);
 

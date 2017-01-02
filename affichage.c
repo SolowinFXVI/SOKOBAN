@@ -7,7 +7,6 @@
 
 void initialiser_affichage(int LARG, int HAUT){
   init_graphics(LARG*TAILLE_CASE, (HAUT*TAILLE_CASE+HAUTEUR_BOUTON));
-  affiche_auto_off();
 }
 
 void dessine_contenu_case(SOKOBAN S, int x, int y, POINT centre, POINT bg, POINT hd){
@@ -96,6 +95,7 @@ void affiche_bouton_all(SOKOBAN S,int LARG, int HAUT)
 
 void afficher_sokoban(SOKOBAN S,int LARG,int HAUT){
   fill_screen(noir);
+  affiche_auto_off();
   affiche_niveau(S,LARG,HAUT);
   affiche_bouton_all(S,LARG,HAUT);
   affiche_all();

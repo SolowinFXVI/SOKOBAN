@@ -102,7 +102,16 @@ ACTION recuperer_action(int LARG, int HAUT){
   return A;
 }
 
-
+SOKOBAN cleanup(SOKOBAN S){ //nettoye la structure SOKOBAN
+  int x = 100;
+  int y = 100;
+  for(x = 0; x < 100; x++){
+    for(y = 0; y < 100; y++){
+      S.une_case[x][y].val = 0;
+    }
+  }
+  return S;
+}
 
 int mode_action(ACTION A)
 {
@@ -122,18 +131,32 @@ SOKOBAN redo(SOKOBAN S){
 }
 
 SOKOBAN init(SOKOBAN S){
+  S = cleanup(S);
+  S = initialiser_sokoban("sasquatch1.xsb",S);
   return S;
 }
 
-SOKOBAN prec(SOKOBAN S, int niveau){
+SOKOBAN prec(SOKOBAN S){
+  if (S.niveau > 1) {
+    S = cleanup(S);
+    S.niveau--;
+    S = initialiser_sokoban("sasquatch1.xsb",S);
+return S;
+}
   return S;
 }
 
-SOKOBAN suiv(SOKOBAN S, int niveau){
-  return S;
+SOKOBAN suiv(SOKOBAN S){
+  if(S.niveau < 50){
+    S = cleanup(S);
+    S.niveau++;
+    printf(" niveau =%d\n",S.niveau);
+    return initialiser_sokoban("sasquatch1.xsb",S);
+  }
+    return S;
 }
 
-SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, int niveau){
+SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A){
 
   if(A.mode == UNDO){
     sauvegarder(S);
@@ -152,12 +175,12 @@ SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, int niveau){
 
   if(A.mode == PREC){
     sauvegarder(S);
-    return prec(S,niveau);
+    return prec(S);
   }
 
   if(A.mode == SUIV){
     sauvegarder(S);
-    return suiv(S,niveau);
+    return suiv(S);
   }
 
   return S;
