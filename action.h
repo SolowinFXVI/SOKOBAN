@@ -8,6 +8,12 @@ struct action{
 
 typedef struct action ACTION;
 
+struct coord{
+  int x;
+  int y;
+};
+
+typedef struct coord COORD;
 ACTION recuperer_action();
 
 

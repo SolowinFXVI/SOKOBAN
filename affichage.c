@@ -26,6 +26,13 @@ void dessine_contenu_case(SOKOBAN S, int x, int y, POINT centre, POINT bg, POINT
         hd.x-=TAILLE_CASE;
         draw_line(bg, hd, black);
         break;
+    case 42: //'*'
+            draw_fill_rectangle(bg,hd,yellow);
+            draw_rectangle(bg, hd, indigo);
+            break;
+    case 43: //'+'
+            draw_fill_circle(centre, TAILLE_POLICE-5, blue);
+            break;
     case 46: //'.'
         draw_fill_rectangle(bg,hd,indigo);
         draw_rectangle(bg, hd, yellow);

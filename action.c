@@ -156,6 +156,119 @@ SOKOBAN suiv(SOKOBAN S){
     return S;
 }
 
+COORD parcourir(SOKOBAN S){
+  int x;
+  int y;
+  COORD C;
+  for(x = 0; x < 100; x++){
+    for( y = 0; y < 100; y++){
+      if(S.une_case[x][y].val == 64){
+        C.x = x;
+        C.y = y;
+      }
+    }
+  }
+  return C;
+}
+
+SOKOBAN mouvement_gauche_boite(COORD C,SOKOBAN S){
+  if(S.une_case[C.x-2][C.y].val == (35 || 42 || 36)){ //mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
+    printf("DOYU C ME?\n");
+    return S;
+  }
+  if(S.une_case[C.x-2][C.y].val == 46){//boite vers emplacement
+    S.une_case[C.x-2][C.y].val = 42;
+    S.une_case[C.x-1][C.y].val = 64;
+    S.une_case[C.x][C.y].val = 0;
+    return S;
+  }
+  //boite vers vide
+  printf("OR ME?\n");
+  S.une_case[C.x-2][C.y].val = 36;
+  S.une_case[C.x-1][C.y].val = 64;
+  S.une_case[C.x][C.y].val = 0;
+  return S;
+}
+
+SOKOBAN mouvement_gauche_boite_rangee(COORD C,SOKOBAN S){
+  if(S.une_case[C.x-2][C.y].val == (35 || 42 || 36)){ //mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
+    return S;
+  }
+  if(S.une_case[C.x-2][C.y].val == 46){//boite rangée vers emplacement
+    S.une_case[C.x-2][C.y].val = 42;
+    S.une_case[C.x-1][C.y].val = 43;//mainteant sur zone de charge
+    S.une_case[C.x][C.y].val = 0;
+    return S;
+  }
+  //boite rangée vers vide
+  S.une_case[C.x-2][C.y].val = 36;
+  S.une_case[C.x-1][C.y].val = 43;
+  S.une_case[C.x][C.y].val = 0;
+  return S;
+}
+
+
+SOKOBAN mouvement_gauche(SOKOBAN S){
+  COORD C;
+  C = parcourir(S);
+  switch(S.une_case[C.x-1][C.y].val) {
+    case 35://mur #
+    break;
+    case 36: //boite $
+    S=mouvement_gauche_boite(C,S);
+    break;
+    case 42://boite rangée *
+    S=mouvement_gauche_boite_rangee(C,S);
+    break;
+    case 46://zone de rangement //buggéssss
+    S.une_case[C.x][C.y].val = 0;
+    S.une_case[C.x-1][C.y].val = 43;
+    default: //tous les autres cas
+    S.une_case[C.x][C.y].val = 0;
+    S.une_case[C.x-1][C.y].val = 64;
+    break;
+  }
+  return S;
+}
+
+SOKOBAN mouvement_haut(SOKOBAN S){
+  COORD C;
+  C = parcourir(S);
+  return S;
+}
+
+SOKOBAN mouvement_droit(SOKOBAN S){
+  COORD C;
+  C = parcourir(S);
+  return S;
+}
+
+SOKOBAN mouvement_bas(SOKOBAN S){
+  COORD C;
+  C = parcourir(S);
+  return S;
+}
+
+SOKOBAN jouer(ACTION A,SOKOBAN S){
+  switch (A.fleche) {
+    case 270:
+    S = mouvement_gauche(S);
+    break;
+    case 0:
+    S = mouvement_haut(S);
+    break;
+    case 90:
+    S = mouvement_droit(S);
+    break;
+    case 180:
+    S = mouvement_bas(S);
+    break;
+    default:
+    break;
+  }
+  return S;
+}
+
 SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A){
 
   if(A.mode == UNDO){
@@ -181,6 +294,11 @@ SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A){
   if(A.mode == SUIV){
     sauvegarder(S);
     return suiv(S);
+  }
+
+  if(A.mode == JOUER){
+    sauvegarder(S);
+    return jouer(A,S);
   }
 
   return S;
