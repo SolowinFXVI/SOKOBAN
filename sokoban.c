@@ -28,6 +28,7 @@ int main(int argc, char *argv[]){
 	LARG = P.largeur_max_level;
 	HAUT = P.hauteur_max_level;
 	initialiser_affichage(LARG,HAUT);
+	S = cleanup(S);
 	S = initialiser_sokoban("sasquatch1.xsb",S);
 	afficher_sokoban(S, LARG, HAUT);
 
@@ -37,5 +38,6 @@ do {
 		afficher_sokoban(S, LARG, HAUT);
 	}
 	while(mode_action(A) != QUIT );
+	S = cleanup(S);
 	return 0;
 }

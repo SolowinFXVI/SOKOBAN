@@ -31,7 +31,7 @@ void dessine_contenu_case(SOKOBAN S, int x, int y, POINT centre, POINT bg, POINT
             draw_rectangle(bg, hd, indigo);
             break;
     case 43: //'+'
-            draw_fill_circle(centre, TAILLE_POLICE-5, blue);
+            draw_fill_circle(centre, TAILLE_POLICE-5, yellow);
             break;
     case 46: //'.'
         draw_fill_rectangle(bg,hd,indigo);

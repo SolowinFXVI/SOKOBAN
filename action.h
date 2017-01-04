@@ -21,4 +21,6 @@ int mode_action(ACTION A);
 
 SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A);
 
+SOKOBAN cleanup(SOKOBAN S);
+
 #endif
