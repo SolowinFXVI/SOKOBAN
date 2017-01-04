@@ -113,8 +113,7 @@ SOKOBAN cleanup(SOKOBAN S){ //nettoye la structure SOKOBAN
   return S;
 }
 
-int mode_action(ACTION A)
-{
+int mode_action(ACTION A){ //uniquement utilisé pour quitter
   return A.mode;
 }
 
@@ -141,8 +140,8 @@ SOKOBAN prec(SOKOBAN S){
     S = cleanup(S);
     S.niveau--;
     S = initialiser_sokoban("sasquatch1.xsb",S);
-return S;
-}
+    return S;
+  }
   return S;
 }
 
@@ -262,6 +261,67 @@ SOKOBAN mouvement_gauche(SOKOBAN S){
     else S.une_case[C.x][C.y].val = 0;
     break;
   }
+  return S;
+}
+
+SOKOBAN mouvement_haut_boite(COORD C,SOKOBAN S){
+  if((S.une_case[C.x][C.y+2].val == 35) || (S.une_case[C.x][C.y+2].val == 42) || (S.une_case[C.x][C.y+2].val == 36)){ //mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
+    printf("obstacle en haut de la boite\n");
+    return S;
+  }
+  if(S.une_case[C.x][C.y+2].val == 46){//boite vers emplacement
+    S.une_case[C.x][C.y+2].val = 42;
+    S.une_case[C.x][C.y+1].val = 64;
+    if(S.une_case[C.x][C.y].val == 43){
+      S.une_case[C.x][C.y].val = 46;
+    }
+    else S.une_case[C.x][C.y].val = 0;
+    return S;
+  }
+  //boite vers vide
+  printf("boite vers vide\n");
+  S.une_case[C.x][C.y+2].val = 36;
+  S.une_case[C.x][C.y+1].val = 64;
+  if(S.une_case[C.x][C.y].val == 43){
+    S.une_case[C.x][C.y].val = 46;
+  }
+  else S.une_case[C.x][C.y].val = 0;
+  return S;
+}
+
+SOKOBAN mouvement_haut_boite_rangee(COORD C,SOKOBAN S){
+  if((S.une_case[C.x][C.y+2].val == 35) || (S.une_case[C.x][C.y+2].val == 42) || (S.une_case[C.x][C.y+2].val == 36)){//mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
+    printf("ya un mur en haut de la boite rangée\n");
+    return S;
+  }
+  if(S.une_case[C.x][C.y+2].val == 46){//boite rangée vers emplacement
+    printf("emplacement en haut de la boite rangée\n");
+    S.une_case[C.x][C.y+2].val = 42;
+    S.une_case[C.x][C.y+1].val = 43;//mainteant sur zone de charge
+    if(S.une_case[C.x][C.y].val == 43){
+      S.une_case[C.x][C.y].val = 46;
+    }
+    else S.une_case[C.x][C.y].val = 0;
+    return S;
+  }
+  //boite rangée vers vide
+  printf("boite rangée vers vide\n");
+  S.une_case[C.x][C.y+2].val = 36;
+  S.une_case[C.x][C.y+1].val = 43;
+  if(S.une_case[C.x][C.y].val == 43){
+    S.une_case[C.x][C.y].val = 46;
+  }
+  else S.une_case[C.x][C.y].val = 0;
+  return S;
+}
+
+SOKOBAN mouvement_haut_zr(COORD C,SOKOBAN S){
+
+  S.une_case[C.x][C.y+1].val = 43;
+  if(S.une_case[C.x][C.y].val == 43){
+    S.une_case[C.x][C.y].val = 46;
+  }
+  else S.une_case[C.x][C.y].val = 0;
   return S;
 }
 
@@ -443,6 +503,7 @@ SOKOBAN mouvement_bas_zr(COORD C,SOKOBAN S){
   else S.une_case[C.x][C.y].val = 0;
   return S;
 }
+
 SOKOBAN mouvement_bas(SOKOBAN S){
   COORD C;
   C = parcourir(S);
@@ -489,7 +550,38 @@ SOKOBAN jouer(ACTION A,SOKOBAN S){
     default:
     break;
   }
-      attendre(170); //pour eviter que le personnage ne traverse l'écran en une seconde
+  attendre(155); //pour eviter que le personnage ne traverse l'écran en une seconde
+  return S;
+}
+
+ACTION test_victoire(SOKOBAN S, ACTION A){ //prends une action et un sokoban si le test est faut renvoi l'action inchangée
+  int x;
+  int y;
+  int win = 1;
+
+  for(x = 0; x < 100; x++){
+    for( y = 0; y < 100; y++){
+      if(S.une_case[x][y].val == 36){ //si il reste un caisse normale
+        printf("pas win");
+        win = 0;
+      }
+    }
+  }
+
+  if (win == 1) {
+    printf("win");
+    A.mode = VICTOIRE;
+    return A;
+  }
+
+return A;
+}
+
+SOKOBAN victoire(SOKOBAN S){
+  if(S.niveau < 50){
+    S.niveau++;
+    return initialiser_sokoban("sasquatch1.xsb",S);
+  }
   return S;
 }
 
@@ -523,6 +615,11 @@ SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A){
   if(A.mode == JOUER){
     sauvegarder(S);
     return jouer(A,S);
+  }
+
+  if(A.mode == VICTOIRE){
+    sauvegarder(S);
+    return victoire(S);
   }
 
   return S;

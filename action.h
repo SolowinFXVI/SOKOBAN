@@ -23,4 +23,6 @@ SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A);
 
 SOKOBAN cleanup(SOKOBAN S);
 
+ACTION test_victoire(SOKOBAN S, ACTION A);
+
 #endif

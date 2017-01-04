@@ -34,6 +34,7 @@ int main(int argc, char *argv[]){
 
 do {
 		A = recuperer_action(LARG,HAUT);
+		A = test_victoire(S,A);
 		S = modifier_sokoban_action(S, A);
 		afficher_sokoban(S, LARG, HAUT);
 	}
