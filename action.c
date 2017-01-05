@@ -75,9 +75,13 @@ ACTION fleche_action(ACTION A,int fleche){
   return A;
 }
 
-ACTION recuperer_action(int LARG, int HAUT){
+ACTION recuperer_action(int LARG, int HAUT, ACTION A){
 
-  ACTION A;
+  if(A.mode == CREATION){
+
+    return A;
+  }
+
   POINT P = get_clic();
   char touche = get_key();
   int fleche = touche;
@@ -129,28 +133,28 @@ SOKOBAN redo(SOKOBAN S){
   return S;
 }
 
-SOKOBAN init(SOKOBAN S){
+SOKOBAN init(SOKOBAN S,char* str){
   S = cleanup(S);
-  S = initialiser_sokoban("sasquatch1.xsb",S);
+  S = initialiser_sokoban(str,S);
   return S;
 }
 
-SOKOBAN prec(SOKOBAN S){
+SOKOBAN prec(SOKOBAN S,char* str){
   if (S.niveau > 1) {
     S = cleanup(S);
     S.niveau--;
-    S = initialiser_sokoban("sasquatch1.xsb",S);
+    S = initialiser_sokoban(str,S);
     return S;
   }
   return S;
 }
 
-SOKOBAN suiv(SOKOBAN S){
+SOKOBAN suiv(SOKOBAN S,char* str){
   if(S.niveau < 50){
     S = cleanup(S);
     S.niveau++;
     printf(" niveau =%d\n",S.niveau);
-    return initialiser_sokoban("sasquatch1.xsb",S);
+    return initialiser_sokoban(str,S);
   }
     return S;
 }
@@ -577,15 +581,16 @@ ACTION test_victoire(SOKOBAN S, ACTION A){ //prends une action et un sokoban si 
 return A;
 }
 
-SOKOBAN victoire(SOKOBAN S){
+SOKOBAN victoire(SOKOBAN S,char* str){
   if(S.niveau < 50){
     S.niveau++;
-    return initialiser_sokoban("sasquatch1.xsb",S);
+    S = cleanup(S);
+    return initialiser_sokoban(str,S);
   }
   return S;
 }
 
-SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A){
+SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, char* str){
 
   if(A.mode == UNDO){
     sauvegarder(S);
@@ -599,17 +604,17 @@ SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A){
 
   if(A.mode == INIT){
     sauvegarder(S);
-    return init(S);
+    return init(S,str);
   }
 
   if(A.mode == PREC){
     sauvegarder(S);
-    return prec(S);
+    return prec(S,str);
   }
 
   if(A.mode == SUIV){
     sauvegarder(S);
-    return suiv(S);
+    return suiv(S,str);
   }
 
   if(A.mode == JOUER){
@@ -619,7 +624,7 @@ SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A){
 
   if(A.mode == VICTOIRE){
     sauvegarder(S);
-    return victoire(S);
+    return victoire(S,str);
   }
 
   return S;

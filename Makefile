@@ -1,7 +1,7 @@
 CFLAGS=-c	-g	-Wall
 
 all:	sokoban
-	./sokoban
+	./sokoban sasquatch1.xsb
 
 sokoban: sokoban.o	affichage.o action.o lecture_ecriture.o stack.o
 	gcc	-o sokoban sokoban.o affichage.o action.o lecture_ecriture.o stack.o -luvsqgraphics `sdl-config --libs` -lm -lSDL_ttf

@@ -17,6 +17,7 @@
 #define QUIT 6
 #define JOUER 7
 #define VICTOIRE 8
+#define CREATION 9
 
 #define COUL_BORD cadetblue
 #define COUL_FOND darkslategray
