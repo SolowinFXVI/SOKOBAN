@@ -32,15 +32,25 @@ int main(int argc, char* argv[]){
 	}
 
 	if(argc == 4){
-		printf("hallow?\n");
+
+		if((strcmp(argv[1],"-n"))== 0){
 				niveau = atoi(argv[2]);
 				str = argv[3];
-				printf("%s\n",str);
-				printf("%d\n",niveau);
-		/*if(strcmp(argv[1],"-c")){
+			}
+
+		else if(strcmp(argv[1],"-c") == 0){
 			A.mode=CREATION;
-		}*/
-	}
+		}
+
+		else{
+			printf("utilisations : \n");
+			printf("utilisations : \n");
+			printf("sokoban ficin.xsb   (premier niveau par defaut)\n");
+			printf("sokoban -n num ficin.xsb  (niveau choisi)\n");
+			printf("sokoban -c ficout.xsb   (creation de niveau)\n");
+			exit(EXIT_FAILURE);
+		}
+}
 
 
 	int LARG;
