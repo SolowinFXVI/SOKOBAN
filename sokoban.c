@@ -15,6 +15,7 @@ int main(int argc, char* argv[]){
 	SOKOBAN S;
 	LEVEL P;
 	ACTION A;
+	A.mode = IDLE; //evite une fuite de memoire (valgrind)
 	int niveau = 1;
 	char *str;
 

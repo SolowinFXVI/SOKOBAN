@@ -7,7 +7,7 @@
 
 #define TAILLE_POLICE 18
 
-#define VIDE 0
+#define IDLE 0
 
 #define UNDO 1
 #define REDO 2
@@ -22,5 +22,4 @@
 #define COUL_BORD cadetblue
 #define COUL_FOND darkslategray
 
-#define STACK_MAX 10
 #endif

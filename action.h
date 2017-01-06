@@ -1,4 +1,3 @@
-#include "stack.h"
 struct action{
   int mode;
   int fleche;

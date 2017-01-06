@@ -2,48 +2,81 @@
 #include <stdlib.h>
 #include "stack.h"
 
-int stfull(){
-  if(st.top >= STACK_MAX - 1){
+int stPrecFull(){
+  if(stPrec.top >= STACK_MAX - 1){
     return 1;
   }
   else
     return 0;
 }
 
-void push(SOKOBAN S){
-  if(stfull()){
+void pushPrec(SOKOBAN S){
+  if(stPrecFull()){
     printf("stack is full\n");
     exit(EXIT_FAILURE);
   }
-  st.top++;
-  st.STprec[st.top] = S;
+  stPrec.top++;
+  stPrec.STprec[stPrec.top] = S;
 }
 
-int stempty(){
-  if(st.top == 0){
-    return 2;
-  }
-  if(st.top == -1){
+int stPrecEmpty(){
+  if(stPrec.top <= 0){
     return 1;
   }
   else
   return 0;
 }
 
-SOKOBAN pop(){
+SOKOBAN popPrec(SOKOBAN S){
   SOKOBAN P;
   printf("poped?");
-  if(stempty()==2){
+  if(stPrecEmpty()){
     printf("pas de retour en arriere possible");
-    return P;
-  }
-  else if(stempty()==1){ //ne devrais jamais arriver
-    printf("stack is empty\n");
-    exit(EXIT_FAILURE);
+    return S;
   }
   else{
-    P = st.STprec[st.top];
-    st.top--;
+    P = stPrec.STprec[stPrec.top];
+    stPrec.top--;
+  return P;
+  }
+}
+
+
+int stSuivFull(){
+  if(stSuiv.top >= STACK_MAX - 1){
+    return 1;
+  }
+  else
+    return 0;
+}
+
+void pushSuiv(SOKOBAN S){
+  if(stSuivFull()){
+    printf("stack is full\n");
+    exit(EXIT_FAILURE);
+  }
+  stSuiv.top++;
+  stSuiv.STSuiv[stSuiv.top] = S;
+}
+
+int stSuivEmpty(){
+  if(stSuiv.top <= 0){
+    return 1;
+  }
+  else
+  return 0;
+}
+
+SOKOBAN popSuiv(SOKOBAN S){
+  SOKOBAN P;
+  printf("poped?");
+  if(stSuivEmpty()){
+    printf("pas de retour en arriere possible");
+    return S;
+  }
+  else{
+    P = stSuiv.STSuiv[stSuiv.top];
+    stSuiv.top--;
   return P;
   }
 }

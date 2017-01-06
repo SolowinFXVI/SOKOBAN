@@ -2,6 +2,7 @@
 #include "constantes.h"
 #include "sokoban.h"
 #include "action.h"
+#include "stack.h"
 
 
 ACTION clic_action(ACTION A, POINT P,int LARG,int HAUT){
@@ -30,7 +31,7 @@ ACTION clic_action(ACTION A, POINT P,int LARG,int HAUT){
     return A;
 
   }
-
+  A.mode = IDLE;
   return A;
 }
 
@@ -122,16 +123,20 @@ int mode_action(ACTION A){ //uniquement utilisé pour quitter
 }
 
 void sauvegarder(SOKOBAN S){
-  push(S);
+  pushPrec(S);
 }
 
 SOKOBAN undo(SOKOBAN S){
-  S = cleanup(S);
-  S = pop();
+  pushSuiv(S);
+  //S = cleanup(S);
+  S = popPrec(S);
   return S;
 }
 
 SOKOBAN redo(SOKOBAN S){
+  pushPrec(S);
+  //S = cleanup(S);
+  S = popSuiv(S);
   return S;
 }
 
