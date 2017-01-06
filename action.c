@@ -2,11 +2,11 @@
 #include "constantes.h"
 #include "sokoban.h"
 #include "action.h"
-#include "stack.h"
+
 
 ACTION clic_action(ACTION A, POINT P,int LARG,int HAUT){
   if(P.y > (HAUT*TAILLE_CASE)){
-    if (P.x < ((LARG*TAILLE_CASE)/6)) {
+    if (P.x < 1 * ((LARG*TAILLE_CASE)/6)) {
       A.mode = UNDO;
       return A;
     }
@@ -122,10 +122,12 @@ int mode_action(ACTION A){ //uniquement utilisé pour quitter
 }
 
 void sauvegarder(SOKOBAN S){
-;
+  push(S);
 }
 
 SOKOBAN undo(SOKOBAN S){
+  S = cleanup(S);
+  S = pop();
   return S;
 }
 
@@ -559,7 +561,7 @@ SOKOBAN jouer(ACTION A,SOKOBAN S){
 }
 
 ACTION test_victoire(SOKOBAN S, ACTION A){ //prends une action et un sokoban si le test est faut renvoi l'action inchangée
-  int x;
+  /*int x;
   int y;
   int win = 1;
 
@@ -577,7 +579,7 @@ ACTION test_victoire(SOKOBAN S, ACTION A){ //prends une action et un sokoban si 
     A.mode = VICTOIRE;
     return A;
   }
-
+*/
 return A;
 }
 
@@ -593,12 +595,11 @@ SOKOBAN victoire(SOKOBAN S,char* str){
 SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, char* str){
 
   if(A.mode == UNDO){
-    sauvegarder(S);
-    return undo(S);
+    S = undo(S);
+    return S;
   }
 
   if(A.mode == REDO){
-    sauvegarder(S);
     return redo(S);
   }
 

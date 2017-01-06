@@ -22,8 +22,5 @@
 #define COUL_BORD cadetblue
 #define COUL_FOND darkslategray
 
-#define STACK_MAX 1000
-#define IS_EMPTY -1
-#define IS_FULL 1
-#define NOR_EMPTY_NOR_FULL 0
+#define STACK_MAX 10
 #endif

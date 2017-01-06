@@ -1,37 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "constantes.h"
-#include "sokoban.h"
 #include "stack.h"
 
-void stack_init(STACK *ST){
-  ST->size = 0;
-}
-
-int is_state(STACK *ST){
-  if (ST->size == STACK_MAX){
-    return IS_FULL;
-  }
-
-  if (ST->size == 0){
-    return IS_EMPTY;
-  }
-
-  return NOR_EMPTY_NOR_FULL;
-}
-
-void push(STACK *ST, SOKOBAN S){
-  if(ST->size < STACK_MAX){
-    ST->data[ST->size++] = S;
+int stfull(){
+  if(st.top >= STACK_MAX - 1){
+    return 1;
   }
   else
-    fprintf(stderr, "ERROR : stack full\n");
+    return 0;
 }
 
-void pop(STACK *ST){
-  if(ST->size == IS_EMPTY){
-    fprintf(stderr, "ERROR : stack empty \n");
+void push(SOKOBAN S){
+  if(stfull()){
+    printf("stack is full\n");
+    exit(EXIT_FAILURE);
+  }
+  st.top++;
+  st.STprec[st.top] = S;
+}
+
+int stempty(){
+  if(st.top == 0){
+    return 2;
+  }
+  if(st.top == -1){
+    return 1;
   }
   else
-    ST->size--;
+  return 0;
+}
+
+SOKOBAN pop(){
+  SOKOBAN P;
+  printf("poped?");
+  if(stempty()==2){
+    printf("pas de retour en arriere possible");
+    return P;
+  }
+  else if(stempty()==1){ //ne devrais jamais arriver
+    printf("stack is empty\n");
+    exit(EXIT_FAILURE);
+  }
+  else{
+    P = st.STprec[st.top];
+    st.top--;
+  return P;
+  }
 }

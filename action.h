@@ -1,3 +1,4 @@
+#include "stack.h"
 struct action{
   int mode;
   int fleche;
@@ -17,7 +18,7 @@ ACTION recuperer_action(int LARG, int LONG, ACTION A);
 
 int mode_action(ACTION A);
 
-SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A,char* str);
+SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, char* str);
 
 SOKOBAN cleanup(SOKOBAN S);
 

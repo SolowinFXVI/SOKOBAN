@@ -18,6 +18,7 @@ int main(int argc, char* argv[]){
 	int niveau = 1;
 	char *str;
 
+
 	if(argc < 2){
 		printf("Trop peut d'arguments\n");
 		printf("utilisations : \n");
@@ -67,7 +68,7 @@ int main(int argc, char* argv[]){
 do {
 		A = recuperer_action(LARG,HAUT,A);
 		A = test_victoire(S,A);
-		S = modifier_sokoban_action(S, A,str);
+		S = modifier_sokoban_action(S, A, str);
 		afficher_sokoban(S, LARG, HAUT);
 	}
 	while(mode_action(A) != QUIT );

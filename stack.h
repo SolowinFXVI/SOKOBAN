@@ -1,15 +1,16 @@
-#ifndef __STACK_H
-#define __STACK_H
+#include "sokoban.h"
+#include "constantes.h"
+
+struct stack{
+  SOKOBAN STprec[STACK_MAX];
+  int top;
+}st;
 
 
+int stfull();
 
-struct stack{ //pile pour sauvegarder
-  SOKOBAN data[STACK_MAX];
-  int size;
-};
+void push(SOKOBAN S);
 
-typedef struct stack STACK;
+int stempty();
 
-int is_state(STACK *ST);
-
-#endif
+SOKOBAN pop();
