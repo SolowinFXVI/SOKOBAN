@@ -88,6 +88,11 @@ ACTION recuperer_action(int LARG, int HAUT, ACTION A){
   int fleche = touche;
 
   char type = wait_key_arrow_clic(&touche, &fleche, &P); //contre-intuitif... le 1er renvoi 2, le deuxieme 1,le 3eme 3.. simple..........
+  // ==2133== Conditional jump or move depends on uninitialised value(s)
+  //==2133==    at 0x10E855: wait_key_arrow_clic (in /home/solowin/Projects/SOKOBAN/sokoban)
+  //==2133==    by 0x10A24C: recuperer_action (action.c:90)
+  //==2133==    by 0x109857: main (sokoban.c:70)
+
   printf("type=%d",type);
 
   if(type == 1){ //fleche
@@ -107,9 +112,9 @@ ACTION recuperer_action(int LARG, int HAUT, ACTION A){
   return A;
 }
 
-SOKOBAN cleanup(SOKOBAN S){ //nettoye la structure SOKOBAN
-  int x = 100;
-  int y = 100;
+SOKOBAN cleanup(SOKOBAN S){ //nettoie la structure SOKOBAN
+  int x;
+  int y;
   for(x = 0; x < 100; x++){
     for(y = 0; y < 100; y++){
       S.une_case[x][y].val = 0;

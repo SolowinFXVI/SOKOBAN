@@ -4,9 +4,33 @@
 
 
 
-
 void initialiser_affichage(int LARG, int HAUT){
   init_graphics(LARG*TAILLE_CASE, (HAUT*TAILLE_CASE+HAUTEUR_BOUTON));
+}
+
+void affiche_nomFichier_niveau_nbrCoups(char *str,int count, ACTION A, SOKOBAN S){
+  COULEUR coul_texte = white;
+  int val_niveau = S.niveau;
+  char *message1 = "Nom de fichier :";
+  char *message2 = "Niveau :";
+  char *message3 = "Nombre de coups :";
+  POINT centre;
+  centre.x=100;
+  centre.y=100;
+  if(A.mode == JOUER){
+    count++;
+  }
+  aff_pol_centre(message1, TAILLE_POLICE, centre, coul_texte);
+  centre.x+=100;
+  aff_pol_centre(str, TAILLE_POLICE, centre, coul_texte);
+  centre.x+=30;
+  aff_pol_centre(message2, TAILLE_POLICE, centre, coul_texte);
+  centre.x+=100;
+  aff_int(val_niveau,TAILLE_POLICE, centre, coul_texte);
+  centre.x+=30;
+  aff_pol_centre(message3, TAILLE_POLICE, centre, coul_texte);
+  centre.x+=100;
+  aff_int(count,TAILLE_POLICE, centre, coul_texte);
 }
 
 void dessine_contenu_case(SOKOBAN S, int x, int y, POINT centre, POINT bg, POINT hd){
@@ -101,10 +125,11 @@ void affiche_bouton_all(SOKOBAN S,int LARG, int HAUT)
   affiche_bouton(5,"Quit", S.mode == QUIT, LARG, HAUT);
 }
 
-void afficher_sokoban(SOKOBAN S,int LARG,int HAUT){
+void afficher_sokoban(SOKOBAN S,int LARG,int HAUT,char *str,ACTION A, int count){
   fill_screen(noir);
   affiche_auto_off();
   affiche_niveau(S,LARG,HAUT);
   affiche_bouton_all(S,LARG,HAUT);
+  affiche_nomFichier_niveau_nbrCoups(str,count,A,S);
   affiche_all();
 }

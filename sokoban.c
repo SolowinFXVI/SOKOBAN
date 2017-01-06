@@ -4,7 +4,6 @@
 #include <ctype.h>
 #include "sokoban.h"
 #include "lecture_ecriture.h"
-#include "action.h"
 #include "affichage.h"
 
 SOKOBAN initialiser_sokoban(char* str, SOKOBAN S){
@@ -57,6 +56,7 @@ int main(int argc, char* argv[]){
 
 	int LARG;
 	int HAUT;
+	int count = 0;
 	P = preprocess(str);
 	LARG = P.largeur_max_level;
 	HAUT = P.hauteur_max_level;
@@ -64,13 +64,14 @@ int main(int argc, char* argv[]){
 	S.niveau = niveau;
 	S = cleanup(S);
 	S = initialiser_sokoban(str,S);
-	afficher_sokoban(S, LARG, HAUT);
+	afficher_sokoban(S, LARG, HAUT,str,A,count);
 
 do {
 		A = recuperer_action(LARG,HAUT,A);
 		A = test_victoire(S,A);
 		S = modifier_sokoban_action(S, A, str);
-		afficher_sokoban(S, LARG, HAUT);
+		count ++;
+		afficher_sokoban(S, LARG, HAUT, str, A, count);
 	}
 	while(mode_action(A) != QUIT );
 	S = cleanup(S);
