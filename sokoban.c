@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "sokoban.h"
-#include "lecture_ecriture.h"
+//#include "sokoban.h"
+#include "creationNiveau.h"
+#include "lecture.h"
 #include "affichage.h"
 
 SOKOBAN initialiser_sokoban(char* str, SOKOBAN S){
@@ -17,6 +18,7 @@ int main(int argc, char* argv[]){
 	A.mode = IDLE; //evite une fuite de memoire (valgrind)
 	int niveau = 1;
 	char *str;
+	char *strCreation;
 
 
 	if(argc < 2){
@@ -41,6 +43,7 @@ int main(int argc, char* argv[]){
 
 		else if(strcmp(argv[1],"-c") == 0){
 			A.mode=CREATION;
+			strCreation = argv[2];
 		}
 
 		else{
@@ -53,27 +56,34 @@ int main(int argc, char* argv[]){
 		}
 }
 
-
-	int LARG;
-	int HAUT;
-	int count = 0;
-	P = preprocess(str);
-	LARG = P.largeur_max_level;
-	HAUT = P.hauteur_max_level;
-	initialiser_affichage(LARG,HAUT);
-	S.niveau = niveau;
-	S = cleanup(S);
-	S = initialiser_sokoban(str,S);
-	afficher_sokoban(S, LARG, HAUT,str,A,count);
-
-do {
-		A = recuperer_action(LARG,HAUT,A);
-		A = test_victoire(S,A);
-		S = modifier_sokoban_action(S, A, str);
-		count ++;
-		afficher_sokoban(S, LARG, HAUT, str, A, count);
+	if(A.mode != CREATION){
+		int LARG;
+		int HAUT;
+		int count = 0;
+		P = preprocess(str);
+		LARG = P.largeur_max_level;
+		HAUT = P.hauteur_max_level;
+		initialiser_affichage(LARG,HAUT);
+		S.niveau = niveau;
+		S = cleanup(S);
+		S = initialiser_sokoban(str,S);
+		afficher_sokoban(S, LARG, HAUT,str,A,count);
+		do {
+				A = recuperer_action(LARG,HAUT,A);
+				A = test_victoire(S,A);
+				S = modifier_sokoban_action(S, A, str);
+				count ++;
+				afficher_sokoban(S, LARG, HAUT, str, A, count);
+			}
+			while(mode_action(A) != QUIT );
+			S = cleanup(S);
 	}
-	while(mode_action(A) != QUIT );
-	S = cleanup(S);
+	else{
+		initialiser_affichageCreation();
+		do{
+			creation_niveau(strCreation);
+		}
+			while(A.mode != QUIT);
+	}
 	return 0;
 }

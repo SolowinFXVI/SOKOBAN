@@ -1,6 +1,6 @@
 #include <uvsqgraphics.h>
 #include "affichage.h"
-#include "lecture_ecriture.h"
+#include "lecture.h"
 
 
 

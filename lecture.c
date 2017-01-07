@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sokoban.h"
-#include "lecture_ecriture.h"
+#include "lecture.h"
 #include "constantes.h"
 
 

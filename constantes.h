@@ -19,6 +19,13 @@
 #define VICTOIRE 8
 #define CREATION 9
 
+#define MUR 35
+#define CAISSE 36
+#define PERSONNAGE_SUR_EMPLACEMENT 43
+#define CAISSE_SUR_EMPLACEMENT 42
+#define EMPLACEMENT 46
+#define PERSONNAGE 64
+
 #define COUL_BORD cadetblue
 #define COUL_FOND darkslategray
 

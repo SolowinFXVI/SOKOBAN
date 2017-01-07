@@ -571,7 +571,7 @@ SOKOBAN jouer(ACTION A,SOKOBAN S){
 }
 
 ACTION test_victoire(SOKOBAN S, ACTION A){ //prends une action et un sokoban si le test est faut renvoi l'action inchangée
-  /*int x;
+  int x;
   int y;
   int win = 1;
 
@@ -589,7 +589,6 @@ ACTION test_victoire(SOKOBAN S, ACTION A){ //prends une action et un sokoban si 
     A.mode = VICTOIRE;
     return A;
   }
-*/
 return A;
 }
 
