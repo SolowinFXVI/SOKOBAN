@@ -1,0 +1,101 @@
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[francais]{babel}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\title {Rapport Projet : SOKOBAN}
+\author{Julien JACQUET 21400579}
+
+\begin{document}
+  \pagenumbering{gobble}
+  \maketitle
+  \newpage
+  \pagenumbering{arabic}
+
+  \paragraph{Note :}
+  L'intégralité des fichiers nécéssaires a la compilation de ce pdf se trouvent dans le dossier Rapport.
+  \paragraph{Note :}
+  La partie creation de niveau est non fonctionnelle.
+  \paragraph{Note :}
+  En cas de tests avec valgrind il faut entrer:   \hfill \break
+  valgrind make test   \hfill \break
+  Sinon erreur : valgrind: mmap(0x315000, 1600327680) failed in UME with error 22 (Invalid argument).  \hfill \break
+  (cependant cette methode entraine une perte de 10 octets a cause de la fonction make)   \hfill \break
+  L'erreur semble venir de valgrind.
+
+  \section{Explications des structures de données :}
+
+  \lstset{
+    language=C,               % choose the language of the code
+    aboveskip=3mm,
+    belowskip=3mm,
+    basicstyle={\small\ttfamily},
+    numbers=left,                   % where to put the line-numbers
+    stepnumber=1,                   % the step between two line-numbers.
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    tabsize=2,                      % sets default tabsize to 2 spaces
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    captionpos=b,                   % sets the caption-position to bottom
+    breaklines=true,                % sets automatic line breaking
+    breakatwhitespace=true,         % sets if automatic breaks should only happen at whitespace
+    %title=\lstname,                 % show the filename of files included with \lstinputlisting;
+  }
+  \lstinputlisting{structure_sokoban.c}
+  \paragraph{}
+  La structure $sokoban$ est composée d'un entier mode qui sera uniquement utilisé pour l'affichage.
+  La partie importante de cette structure est la $CASE$, c'est un double tableau de 100 par 100, la forme de tableau semble convenir puisqu'il est aisé de représenter mentalement le sokoban sous forme matricielle.
+  En dernier element de cette structure on a un entier niveau qui sert a retenir le niveau auquel on se trouve.
+  La structure $une\_case$ n'est pas vraiment nécéssaire mais elle permet de clarifier la construction de la structure $sokoban$.
+  Une chose a noter cependant :
+  La strucuture $sokoban$ ne stockera jamais autre chose que des entiers, alors que le fichier $sasquatch1.xsb$ contient des $char$.
+  La raison a cela est une grande simplification de la lecture du fichier, la lecture et le stockage des $char$ pouvant s'averer laborieux, uniquement le code ascii des caracteres est retenu.
+
+  \lstinputlisting{structure_action.c}
+  \paragraph{}
+  La structure $action$ contient deux entiers un entier $mode$ qui définira les actions a effectuer (UNDO,REDO,QUIT,SUIVANT,etc) et un entier $fleche$ qui sert a renvoyer la valeur de la flèche quand l'utilisateur appuie dessus.
+
+  La structure $coord$ contient deux entiers qui sont en fait les coodonnées de l'emplacement du joueur dans le $sokoban$.
+  \lstinputlisting{structure_level.c}
+  \paragraph{}
+  La structure level a deux usages, le premier est de determiner la plus grande largeur et hauteur possible d'un niveau contenu dans un fichier. Ces donees servent dans la fonction $preprocess()$ et servent a determiner la taille de la fenetre graphique et les données qui en dépendent.
+  Le second usage est de retenir la ligne de debut d'un niveau ainsi que la ligne de fin.
+
+  \lstinputlisting{structure_stack.c}
+  \paragraph{}
+  Les structures $stackRedo$ et $stackUndo$ sont identiques, ce sont de piles, elles contiennent un tableau de type $sokoban$ pour stocker l'état du sokoban, et un int $top$ qui est necessaire pour créer une pile.
+
+  \lstinputlisting{structure_creation.c}
+  \paragraph{}
+  Bien que le module de creation ne soit pas fonctionnel, la strucutre de creation de niveau existe, elle contient un $sokoban$ et un mode qui devait correspondre au type de caractere(mur , caisse), choisi par l'utilisateur, à ajouter dans le fichier.
+
+  \section{Critiques :}
+  \paragraph{}
+  Certaines fonctions ont demandées un travail extremement chronophage, principalement la lecture prenant plusieurs jours pour ecrire une 150 lignes alors que d'autres (la partie des mouvements d'$action$), après 20 minutes de reflexion ont pris seulement une journée a écrire (400 lignes).
+  Il est difficile d'évaluer a l'avance la difficultée que poseront certains modules du projet.
+  D'autre part certaines fonctions du projet relevent du bricolage mais elles fonctionnent.
+  Le module de creation ne fonctionne pas, quelques jours supplémentaires auraient étés nécéssaires malgré un mise au travail debut décembre.
+
+  \section{Références :}
+  \paragraph{}
+  Pour la lecture : http://stackoverflow.com/questions/4179671/read-in-text-file-1-character-at-a-time-using-c  \hfill \break
+  Pour les piles : l'intégralitée des resultats de la premiere page google de la recherche "stack in C". \hfill \break
+  Pour les converions ascii : https://www.branah.com/ascii-converter
+
+\end{document}
+\grid
+\grid

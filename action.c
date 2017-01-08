@@ -36,7 +36,7 @@ ACTION clic_action(ACTION A, POINT P, int LARG, int HAUT)
 		return A;
 
 	}
-	A.mode = IDLE;
+	A.mode = IDLE; //en cas de clic nulle part
 	return A;
 }
 
@@ -96,10 +96,11 @@ ACTION recuperer_action(int LARG, int HAUT, ACTION A)
 	int fleche = touche;
 
 	char type = wait_key_arrow_clic(&touche, &fleche, &P);	//contre-intuitif... le 1er renvoi 2, le deuxieme 1,le 3eme 3.. simple..........
-	// ==2133== Conditional jump or move depends on uninitialised value(s)
-	//==2133==    at 0x10E855: wait_key_arrow_clic (in /home/solowin/Projects/SOKOBAN/sokoban)
+	//==2133== Conditional jump or move depends on uninitialised value(s)
+	//==2133==    at 0x10E855: wait_key_arrow_clic (in Projects/SOKOBAN/sokoban)
 	//==2133==    by 0x10A24C: recuperer_action (action.c:90)
 	//==2133==    by 0x109857: main (sokoban.c:70)
+	// ????
 
 	if (type == 1) {	//fleche
 		return fleche_action(A, fleche);

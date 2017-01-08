@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "stack.h"
 
-int stUndoFull()
+int stUndoFull() //test pile pleine
 {
 	if (stUndo.top >= STACK_MAX - 1) {
 		return 1;
@@ -16,7 +16,7 @@ int stUndoFull()
 		return 0;
 }
 
-void pushUndo(SOKOBAN S)
+void pushUndo(SOKOBAN S) //push
 {
 	if (stUndoFull()) {
 		printf("stack is full\n");
@@ -26,7 +26,7 @@ void pushUndo(SOKOBAN S)
 	stUndo.STprec[stUndo.top] = S;
 }
 
-int stUndoEmpty()
+int stUndoEmpty() //test pile vide
 {
 	if (stUndo.top <= 0) {
 		return 1;

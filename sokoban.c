@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
 		}
 
 		else if (strcmp(argv[1], "-c") == 0) {
+			printf("creation non fonctionnelle..");
 			A.mode = CREATION;
 			strCreation = argv[2];
 		}
