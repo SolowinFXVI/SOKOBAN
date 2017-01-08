@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-//#include "sokoban.h"
 #include "creationNiveau.h"
 #include "lecture.h"
 #include "affichage.h"

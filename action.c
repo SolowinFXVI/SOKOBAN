@@ -574,21 +574,20 @@ ACTION test_victoire(SOKOBAN S, ACTION A){ //prends une action et un sokoban si 
   int x;
   int y;
   int win = 1;
-
+if(A.mode == JOUER){
   for(x = 0; x < 100; x++){
     for( y = 0; y < 100; y++){
-      if(S.une_case[x][y].val == 36){ //si il reste un caisse normale
-        printf("pas win");
+      if(S.une_case[x][y].val == 36){ //si il reste un caisse pas rangée
         win = 0;
       }
     }
   }
 
   if (win == 1) {
-    printf("win");
     A.mode = VICTOIRE;
     return A;
   }
+}
 return A;
 }
 
