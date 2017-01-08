@@ -3,7 +3,7 @@ CFLAGS=-c	-g	-Wall
 all:	sokoban
 	./sokoban	sasquatch1.xsb
 
-test: *
+test:
 	make	clean	&&	make	compil && ./sokoban -n	8	sasquatch1.xsb
 
 creation: sokoban

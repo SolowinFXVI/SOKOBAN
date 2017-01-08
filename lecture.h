@@ -1,4 +1,5 @@
-
+#ifndef __lecture_h
+#define __lecture_h
 SOKOBAN lire(char* str,SOKOBAN S);
 
 struct level{
@@ -11,3 +12,5 @@ struct level{
 typedef struct level LEVEL;
 
 LEVEL preprocess(char* str);
+
+#endif

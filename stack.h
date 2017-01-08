@@ -1,31 +1,36 @@
+#ifndef __stack_h
+#define __stack_h
+
 #include "sokoban.h"
 
-#define STACK_MAX 10000 //devrais etre suffisant --> implique 10000 clics de touches...
+#define STACK_MAX 20000 //devrais etre suffisant --> implique 20000 clics de touches...
 
 //les deux structures et leurs fonctions sont identiques, simplement pour les différentier
-struct stackPrec{ //pour undo
+struct stackUndo{ //pour undo
   SOKOBAN STprec[STACK_MAX];
   int top;
-}stPrec;
+}stUndo;
 
 
-int stPrecFull();
+int stUndoFull();
 
-void pushPrec(SOKOBAN S);
+void pushUndo(SOKOBAN S);
 
-int stPrecEmpty();
+int stUndoEmpty();
 
-SOKOBAN popPrec(SOKOBAN S);
+SOKOBAN popUndo(SOKOBAN S);
 
-struct stackSuiv{ //pour redo
-  SOKOBAN STSuiv[STACK_MAX];
+struct stackRedo{ //pour redo
+  SOKOBAN STRedo[STACK_MAX];
   int top;
-}stSuiv;
+}stRedo;
 
-int stSuivFull();
+int stRedoFull();
 
-void pushSuiv(SOKOBAN S);
+void pushRedo(SOKOBAN S);
 
-int stSuivEmpty();
+int stRedoEmpty();
 
-SOKOBAN popSuiv(SOKOBAN S);
+SOKOBAN popRedo(SOKOBAN S);
+
+#endif

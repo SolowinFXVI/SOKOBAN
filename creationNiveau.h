@@ -1,3 +1,6 @@
+#ifndef __creationNiveau_h
+#define __creationNiveau_h
+
 #include "sokoban.h"
 
 #define NBR_CASES 50
@@ -17,3 +20,5 @@ STRUCTURE_CREATION_NIVEAU creation_niveau(char *strCreation);
 void affichage_creation();
 
 void sauver(char* strCreation, SOKOBAN S);
+
+#endif

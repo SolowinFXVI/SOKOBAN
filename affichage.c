@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <uvsqgraphics.h>
 #include "affichage.h"
 #include "lecture.h"
@@ -118,8 +120,7 @@ void affiche_bouton(int rang, char *texte, int etat,int LARG, int HAUT){
     aff_pol_centre(texte, TAILLE_POLICE, centre, coul_texte);
 }
 
-void affiche_bouton_all(SOKOBAN S,int LARG, int HAUT)
-{
+void affiche_bouton_all(SOKOBAN S,int LARG, int HAUT){
 
   affiche_bouton(0,"Undo", S.mode == UNDO, LARG, HAUT);
   affiche_bouton(1,"Redo", S.mode == REDO, LARG, HAUT);

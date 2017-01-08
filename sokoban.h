@@ -1,8 +1,7 @@
-#include "constantes.h"
-
 #ifndef ___SOKOBAN_H
 #define ___SOKOBAN_H
 
+#include "constantes.h"
 struct une_case{
    int val;
   };

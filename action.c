@@ -5,7 +5,7 @@
 #include "stack.h"
 
 
-ACTION clic_action(ACTION A, POINT P,int LARG,int HAUT){
+ACTION clic_action(ACTION A, POINT P,int LARG,int HAUT){ //determiner l'action a effectuer en fonction de la zone cliquée
   if(P.y > (HAUT*TAILLE_CASE)){
     if (P.x < 1 * ((LARG*TAILLE_CASE)/6)) {
       A.mode = UNDO;
@@ -35,7 +35,7 @@ ACTION clic_action(ACTION A, POINT P,int LARG,int HAUT){
   return A;
 }
 
-ACTION clavier_action(ACTION A, char touche){
+ACTION clavier_action(ACTION A, char touche){ //determine l'action a effectuer en fonction de la touche enfoncée
 
   if(touche == ('U')){
     A.mode = UNDO;
@@ -70,7 +70,7 @@ ACTION clavier_action(ACTION A, char touche){
   return A;
 }
 
-ACTION fleche_action(ACTION A,int fleche){
+ACTION fleche_action(ACTION A,int fleche){ //passe en mode jouer et fais passer la fleche a la strcuture
   A.mode=JOUER;
   A.fleche=fleche;
   return A;
@@ -93,15 +93,11 @@ ACTION recuperer_action(int LARG, int HAUT, ACTION A){
   //==2133==    by 0x10A24C: recuperer_action (action.c:90)
   //==2133==    by 0x109857: main (sokoban.c:70)
 
-  printf("type=%d",type);
-
   if(type == 1){ //fleche
-    printf("fleche=%d\n", fleche);
     return fleche_action(A,fleche);
   }
 
   if(type == 2){ //touche
-    printf("touche=%c\n", touche);
     return clavier_action(A,touche);
   }
 
@@ -128,20 +124,20 @@ int mode_action(ACTION A){ //uniquement utilisé pour quitter
 }
 
 void sauvegarder(SOKOBAN S){
-  pushPrec(S);
+  pushUndo(S);
 }
 
 SOKOBAN undo(SOKOBAN S){
-  pushSuiv(S);
+  pushRedo(S);
   //S = cleanup(S);
-  S = popPrec(S);
+  S = popUndo(S);
   return S;
 }
 
 SOKOBAN redo(SOKOBAN S){
-  pushPrec(S);
+  pushUndo(S);
   //S = cleanup(S);
-  S = popSuiv(S);
+  S = popRedo(S);
   return S;
 }
 
@@ -171,7 +167,7 @@ SOKOBAN suiv(SOKOBAN S,char* str){
     return S;
 }
 
-COORD parcourir(SOKOBAN S){
+COORD parcourir(SOKOBAN S){ //recherche le personnage dans la structure sokoban et renvoie sa position
   int x;
   int y;
   COORD C;
@@ -192,7 +188,6 @@ COORD parcourir(SOKOBAN S){
 
 SOKOBAN mouvement_gauche_boite(COORD C,SOKOBAN S){
   if((S.une_case[C.x-2][C.y].val == 35) || (S.une_case[C.x-2][C.y].val == 42) || (S.une_case[C.x-2][C.y].val == 36)){ //mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
-    printf("obstacle a gauche de la boite\n");
     return S;
   }
   if(S.une_case[C.x-2][C.y].val == 46){//boite vers emplacement
@@ -205,7 +200,6 @@ SOKOBAN mouvement_gauche_boite(COORD C,SOKOBAN S){
     return S;
   }
   //boite vers vide
-  printf("boite vers vide\n");
   S.une_case[C.x-2][C.y].val = 36;
   S.une_case[C.x-1][C.y].val = 64;
   if(S.une_case[C.x][C.y].val == 43){
@@ -217,11 +211,9 @@ SOKOBAN mouvement_gauche_boite(COORD C,SOKOBAN S){
 
 SOKOBAN mouvement_gauche_boite_rangee(COORD C,SOKOBAN S){
   if((S.une_case[C.x-2][C.y].val == 35) || (S.une_case[C.x-2][C.y].val == 42) || (S.une_case[C.x-2][C.y].val == 36)){//mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
-    printf("ya un mur a gauche de la boite rangée\n");
     return S;
   }
   if(S.une_case[C.x-2][C.y].val == 46){//boite rangée vers emplacement
-    printf("emplacement a gauche de la boite rangée\n");
     S.une_case[C.x-2][C.y].val = 42;
     S.une_case[C.x-1][C.y].val = 43;//mainteant sur zone de charge
     if(S.une_case[C.x][C.y].val == 43){
@@ -231,7 +223,6 @@ SOKOBAN mouvement_gauche_boite_rangee(COORD C,SOKOBAN S){
     return S;
   }
   //boite rangée vers vide
-  printf("boite rangée vers vide\n");
   S.une_case[C.x-2][C.y].val = 36;
   S.une_case[C.x-1][C.y].val = 43;
   if(S.une_case[C.x][C.y].val == 43){
@@ -241,7 +232,7 @@ SOKOBAN mouvement_gauche_boite_rangee(COORD C,SOKOBAN S){
   return S;
 }
 
-SOKOBAN mouvement_gauche_zr(COORD C,SOKOBAN S){
+SOKOBAN mouvement_gauche_zr(COORD C,SOKOBAN S){ //zr = zone de rangement
 
   S.une_case[C.x-1][C.y].val = 43;
   if(S.une_case[C.x][C.y].val == 43){
@@ -256,14 +247,11 @@ SOKOBAN mouvement_gauche(SOKOBAN S){
   C = parcourir(S);
   switch(S.une_case[C.x-1][C.y].val) {
     case 35://mur #
-    printf("ya un mur a gauche\n");
     break;
     case 36: //boite $
-    printf("ya une boite a gauche\n");
     S=mouvement_gauche_boite(C,S);
     break;
     case 42://boite rangée
-    printf("ya une boite rangée a gauche\n");
     S=mouvement_gauche_boite_rangee(C,S);
     break;
     case 46://zone de rangement
@@ -282,7 +270,6 @@ SOKOBAN mouvement_gauche(SOKOBAN S){
 
 SOKOBAN mouvement_haut_boite(COORD C,SOKOBAN S){
   if((S.une_case[C.x][C.y+2].val == 35) || (S.une_case[C.x][C.y+2].val == 42) || (S.une_case[C.x][C.y+2].val == 36)){ //mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
-    printf("obstacle en haut de la boite\n");
     return S;
   }
   if(S.une_case[C.x][C.y+2].val == 46){//boite vers emplacement
@@ -295,7 +282,6 @@ SOKOBAN mouvement_haut_boite(COORD C,SOKOBAN S){
     return S;
   }
   //boite vers vide
-  printf("boite vers vide\n");
   S.une_case[C.x][C.y+2].val = 36;
   S.une_case[C.x][C.y+1].val = 64;
   if(S.une_case[C.x][C.y].val == 43){
@@ -307,11 +293,9 @@ SOKOBAN mouvement_haut_boite(COORD C,SOKOBAN S){
 
 SOKOBAN mouvement_haut_boite_rangee(COORD C,SOKOBAN S){
   if((S.une_case[C.x][C.y+2].val == 35) || (S.une_case[C.x][C.y+2].val == 42) || (S.une_case[C.x][C.y+2].val == 36)){//mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
-    printf("ya un mur en haut de la boite rangée\n");
     return S;
   }
   if(S.une_case[C.x][C.y+2].val == 46){//boite rangée vers emplacement
-    printf("emplacement en haut de la boite rangée\n");
     S.une_case[C.x][C.y+2].val = 42;
     S.une_case[C.x][C.y+1].val = 43;//mainteant sur zone de charge
     if(S.une_case[C.x][C.y].val == 43){
@@ -321,7 +305,6 @@ SOKOBAN mouvement_haut_boite_rangee(COORD C,SOKOBAN S){
     return S;
   }
   //boite rangée vers vide
-  printf("boite rangée vers vide\n");
   S.une_case[C.x][C.y+2].val = 36;
   S.une_case[C.x][C.y+1].val = 43;
   if(S.une_case[C.x][C.y].val == 43){
@@ -346,14 +329,11 @@ SOKOBAN mouvement_haut(SOKOBAN S){
   C = parcourir(S);
   switch(S.une_case[C.x][C.y+1].val) {
     case 35://mur #
-    printf("ya un mur en haut\n");
     break;
     case 36: //boite $
-    printf("ya une boite en haut\n");
     S=mouvement_haut_boite(C,S);
     break;
     case 42://boite rangée
-    printf("ya une boite rangée en haut\n");
     S=mouvement_haut_boite_rangee(C,S);
     break;
     case 46://zone de rangement
@@ -371,7 +351,6 @@ SOKOBAN mouvement_haut(SOKOBAN S){
 }
 SOKOBAN mouvement_droit_boite(COORD C,SOKOBAN S){
   if((S.une_case[C.x+2][C.y].val == 35) || (S.une_case[C.x+2][C.y].val == 42) || (S.une_case[C.x+2][C.y].val == 36)){ //mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
-    printf("obstacle a droite de la boite\n");
     return S;
   }
   if(S.une_case[C.x+2][C.y].val == 46){//boite vers emplacement
@@ -384,7 +363,6 @@ SOKOBAN mouvement_droit_boite(COORD C,SOKOBAN S){
     return S;
   }
   //boite vers vide
-  printf("boite vers vide\n");
   S.une_case[C.x+2][C.y].val = 36;
   S.une_case[C.x+1][C.y].val = 64;
   if(S.une_case[C.x][C.y].val == 43){
@@ -396,11 +374,9 @@ SOKOBAN mouvement_droit_boite(COORD C,SOKOBAN S){
 
 SOKOBAN mouvement_droit_boite_rangee(COORD C,SOKOBAN S){
   if((S.une_case[C.x+2][C.y].val == 35) || (S.une_case[C.x+2][C.y].val == 42) || (S.une_case[C.x+2][C.y].val == 36)){//mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
-    printf("ya un mur a droite de la boite rangée\n");
     return S;
   }
   if(S.une_case[C.x+2][C.y].val == 46){//boite rangée vers emplacement
-    printf("emplacement a droite de la boite rangée\n");
     S.une_case[C.x+2][C.y].val = 42;
     S.une_case[C.x+1][C.y].val = 43;//mainteant sur zone de charge
     if(S.une_case[C.x][C.y].val == 43){
@@ -410,7 +386,6 @@ SOKOBAN mouvement_droit_boite_rangee(COORD C,SOKOBAN S){
     return S;
   }
   //boite rangée vers vide
-  printf("boite rangée vers vide\n");
   S.une_case[C.x+2][C.y].val = 36;
   S.une_case[C.x+1][C.y].val = 43;
   if(S.une_case[C.x][C.y].val == 43){
@@ -435,14 +410,11 @@ SOKOBAN mouvement_droit(SOKOBAN S){
   C = parcourir(S);
   switch(S.une_case[C.x+1][C.y].val) {
     case 35://mur #
-    printf("ya un mur a droite\n");
     break;
     case 36: //boite $
-    printf("ya une boite a droite\n");
     S=mouvement_droit_boite(C,S);
     break;
     case 42://boite rangée
-    printf("ya une boite rangée a droite\n");
     S=mouvement_droit_boite_rangee(C,S);
     break;
     case 46://zone de rangement
@@ -461,7 +433,6 @@ SOKOBAN mouvement_droit(SOKOBAN S){
 
 SOKOBAN mouvement_bas_boite(COORD C,SOKOBAN S){
   if((S.une_case[C.x][C.y-2].val == 35) || (S.une_case[C.x][C.y-2].val == 42) || (S.une_case[C.x][C.y-2].val == 36)){ //mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
-    printf("obstacle en bas de la boite\n");
     return S;
   }
   if(S.une_case[C.x][C.y-2].val == 46){//boite vers emplacement
@@ -474,7 +445,6 @@ SOKOBAN mouvement_bas_boite(COORD C,SOKOBAN S){
     return S;
   }
   //boite vers vide
-  printf("boite vers vide\n");
   S.une_case[C.x][C.y-2].val = 36;
   S.une_case[C.x][C.y-1].val = 64;
   if(S.une_case[C.x][C.y].val == 43){
@@ -486,11 +456,9 @@ SOKOBAN mouvement_bas_boite(COORD C,SOKOBAN S){
 
 SOKOBAN mouvement_bas_boite_rangee(COORD C,SOKOBAN S){
   if((S.une_case[C.x][C.y-2].val == 35) || (S.une_case[C.x][C.y-2].val == 42) || (S.une_case[C.x][C.y-2].val == 36)){//mur ou boite ou boite rangée a gauche de la boite = mouvement impossible
-    printf("ya un mur en bas de la boite rangée\n");
     return S;
   }
   if(S.une_case[C.x][C.y-2].val == 46){//boite rangée vers emplacement
-    printf("emplacement en bas de la boite rangée\n");
     S.une_case[C.x][C.y-2].val = 42;
     S.une_case[C.x][C.y-1].val = 43;//mainteant sur zone de charge
     if(S.une_case[C.x][C.y].val == 43){
@@ -500,7 +468,6 @@ SOKOBAN mouvement_bas_boite_rangee(COORD C,SOKOBAN S){
     return S;
   }
   //boite rangée vers vide
-  printf("boite rangée vers vide\n");
   S.une_case[C.x][C.y-2].val = 36;
   S.une_case[C.x][C.y-1].val = 43;
   if(S.une_case[C.x][C.y].val == 43){
@@ -525,14 +492,11 @@ SOKOBAN mouvement_bas(SOKOBAN S){
   C = parcourir(S);
   switch(S.une_case[C.x][C.y-1].val) {
     case 35://mur #
-    printf("ya un mur en bas\n");
     break;
     case 36: //boite $
-    printf("ya une boite en bas\n");
     S=mouvement_bas_boite(C,S);
     break;
     case 42://boite rangée
-    printf("ya une boite rangée en bas\n");
     S=mouvement_bas_boite_rangee(C,S);
     break;
     case 46://zone de rangement
@@ -551,16 +515,16 @@ SOKOBAN mouvement_bas(SOKOBAN S){
 
 SOKOBAN jouer(ACTION A,SOKOBAN S){
   switch (A.fleche) {
-    case 270:
+    case 270: //fleche de gauche
     S = mouvement_gauche(S);
     break;
-    case 0:
+    case 0: //fleche du haut
     S = mouvement_haut(S);
     break;
-    case 90:
+    case 90: //fleche de droite
     S = mouvement_droit(S);
     break;
-    case 180:
+    case 180: //fleche du bas
     S = mouvement_bas(S);
     break;
     default:
@@ -600,7 +564,7 @@ SOKOBAN victoire(SOKOBAN S,char* str){
   return S;
 }
 
-SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, char* str){
+SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, char* str){ //determine l'action a effectuer en fonction du mode et le fait
 
   if(A.mode == UNDO){
     S = undo(S);

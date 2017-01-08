@@ -7,7 +7,7 @@
 
 
 
-LEVEL preprocess(char* str){
+LEVEL preprocess(char* str){ //analyse le fichier pour determiner la taille de la fenetre graphique
   LEVEL P;
   P.debut = 0;
   int c;
@@ -19,25 +19,23 @@ LEVEL preprocess(char* str){
   int largest = 0;
   int longuest = 0;
   int delta = 0;
-  FILE *fica = fopen(str ,"r");
+  FILE *fic1 = fopen(str ,"r");
 
-  if (fica == NULL){
+  if (fic1 == NULL){
     printf("echec ouverture fichier%s\n",str );
     exit(EXIT_FAILURE);
   }
 
-  while(((c = fgetc(fica)) != EOF)){
+  while(((c = fgetc(fic1)) != EOF)){
 
     switch(c){
-      case 10 :
+      case 10 : //nouvelle ligne
         count_line++;
         newline = 1;
-        //printf("line = %d\n",count_line);
         break;
-      case 59 :
+      case 59 : // ';' marque de nouveau niveau
         count_level++;
         newlevel = 1;
-        //printf("level = %d\n",count_level);
         break;
     default :
     ;
@@ -67,13 +65,11 @@ LEVEL preprocess(char* str){
   }
 
   P.hauteur_max_level = longuest;
-  printf("hauteur max = %d\n", P.hauteur_max_level);
   P.largeur_max_level = largest;
-  printf("longueur = %d\n",P.largeur_max_level);
   return P;
 }
 
-LEVEL initialiser_niveau(FILE *fic, SOKOBAN S,LEVEL L){
+LEVEL initialiser_niveau(FILE *fic, SOKOBAN S,LEVEL L){ //determine le debut et la fin du niveau
   int stop = 0;
   int c;
   int count_line = -1;
@@ -84,11 +80,9 @@ LEVEL initialiser_niveau(FILE *fic, SOKOBAN S,LEVEL L){
     switch(c){
       case 10 :
         count_line++;
-        //printf("line = %d\n",count_line);
         break;
       case 59 :
         count_level++;
-        //printf("level = %d\n",count_level);
         break;
     default :
     ;
@@ -97,12 +91,10 @@ LEVEL initialiser_niveau(FILE *fic, SOKOBAN S,LEVEL L){
     if(((count_level) == (S.niveau)) && (stop == 0)){
       L.debut = count_line;
       stop = 1;
-      printf("L.debut = %d\n",L.debut);
     }
 
     if((count_level) == (S.niveau+1)){
       L.fin = count_line;
-      printf("L.fin =  %d\n",L.fin);
       return L;
     }
   }
@@ -113,7 +105,7 @@ LEVEL initialiser_niveau(FILE *fic, SOKOBAN S,LEVEL L){
   return L;
 }
 
-SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L){
+SOKOBAN lire_characteres_un_a_un(FILE *fic2, SOKOBAN S, LEVEL L){
   int count = 0;
   int start = 0;
   int delta;
@@ -122,7 +114,7 @@ SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L){
   int y = L.fin-L.fin+delta;
   int c;
 
-  while ((c = fgetc(ficd)) != EOF){
+  while ((c = fgetc(fic2)) != EOF){
 
     if (c == 10){
       count++;
@@ -130,7 +122,6 @@ SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L){
 
     if(count == L.debut){
       start = 1;
-      //printf("initialized");
     }
 
     if((start >= 1) && (start <= delta)){
@@ -142,9 +133,6 @@ SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L){
       }
       S.une_case[x][y].val = c;
       x++;
-      //printf("c = %d\n",c);
-      //printf("count = %d\n",count);
-      //printf("start = %d\n",start);
     }
   }
 
@@ -153,8 +141,8 @@ SOKOBAN lire_characteres_un_a_un(FILE *ficd, SOKOBAN S, LEVEL L){
 }
 
 SOKOBAN lire(char* str,SOKOBAN S){
-  LEVEL L;
-  L.hauteur_max_level = 0; //test
+  LEVEL L; //initialisation
+  L.hauteur_max_level = 0;
   L.largeur_max_level = 0;
   L.debut=0;
   L.fin=0;
@@ -166,20 +154,17 @@ SOKOBAN lire(char* str,SOKOBAN S){
   }
 
   L = initialiser_niveau(fic,S,L);
-  printf("level initilized ");
   fclose(fic);
 
 
-  FILE *ficd = fopen(str ,"r");
+  FILE *fic2 = fopen(str ,"r");
 
-  if (ficd == NULL){
-    printf("echec ouverture fichier%s\n",str );
+  if (fic2 == NULL){
     exit(EXIT_FAILURE);
   }
 
-  printf("before lire_characteres_un_a_un");
-  S = lire_characteres_un_a_un(ficd,S,L);
-  printf("after lire_characteres_un_a_un");
-  fclose(ficd);
+  S = lire_characteres_un_a_un(fic2,S,L);
+
+  fclose(fic2);
   return S;
 }

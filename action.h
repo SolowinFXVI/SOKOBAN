@@ -1,3 +1,6 @@
+#ifndef __action_h
+#define __action_h
+
 struct action{
   int mode;
   int fleche;
@@ -22,3 +25,5 @@ SOKOBAN modifier_sokoban_action(SOKOBAN S, ACTION A, char* str);
 SOKOBAN cleanup(SOKOBAN S);
 
 ACTION test_victoire(SOKOBAN S, ACTION A);
+
+#endif
