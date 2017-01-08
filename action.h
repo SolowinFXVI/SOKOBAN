@@ -1,3 +1,8 @@
+///////////////////////////////
+//    NOM : JACQUET          //
+//    PRENOM : Julien        //
+//    NUMERO ET : 21400579   //
+///////////////////////////////
 #ifndef __action_h
 #define __action_h
 

@@ -1,3 +1,9 @@
+///////////////////////////////
+//    NOM : JACQUET          //
+//    PRENOM : Julien        //
+//    NUMERO ET : 21400579   //
+///////////////////////////////
+
 #ifndef __stack_h
 #define __stack_h
 

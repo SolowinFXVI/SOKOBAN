@@ -1,3 +1,9 @@
+///////////////////////////////
+//    NOM : JACQUET          //
+//    PRENOM : Julien        //
+//    NUMERO ET : 21400579   //
+///////////////////////////////
+
 #ifndef ___CONSTANTES_H
 #define ___CONSTANTES_H
 

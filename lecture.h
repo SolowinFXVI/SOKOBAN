@@ -1,3 +1,9 @@
+///////////////////////////////
+//    NOM : JACQUET          //
+//    PRENOM : Julien        //
+//    NUMERO ET : 21400579   //
+///////////////////////////////
+
 #ifndef __lecture_h
 #define __lecture_h
 SOKOBAN lire(char* str,SOKOBAN S);

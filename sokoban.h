@@ -1,3 +1,9 @@
+///////////////////////////////
+//    NOM : JACQUET          //
+//    PRENOM : Julien        //
+//    NUMERO ET : 21400579   //
+///////////////////////////////
+
 #ifndef ___SOKOBAN_H
 #define ___SOKOBAN_H
 

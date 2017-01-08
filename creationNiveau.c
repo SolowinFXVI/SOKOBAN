@@ -1,3 +1,9 @@
+///////////////////////////////
+//    NOM : JACQUET          //
+//    PRENOM : Julien        //
+//    NUMERO ET : 21400579   //
+///////////////////////////////
+
 #include <uvsqgraphics.h>
 #include "constantes.h"
 #include "creationNiveau.h"

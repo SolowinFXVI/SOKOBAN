@@ -1,10 +1,14 @@
+///////////////////////////////
+//    NOM : JACQUET          //
+//    PRENOM : Julien        //
+//    NUMERO ET : 21400579   //
+///////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <uvsqgraphics.h>
 #include "affichage.h"
 #include "lecture.h"
-
-
 
 void initialiser_affichage(int LARG, int HAUT){
   init_graphics(LARG*TAILLE_CASE, (HAUT*TAILLE_CASE+HAUTEUR_BOUTON));
